@@ -4,6 +4,10 @@ const db = require('./database-mongodb/index.js');
 
 const app = express();
 
+app.use(express.json({
+  type: 'application/json',
+}));
+
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
   //local address
@@ -128,6 +132,35 @@ app.get('/descriptionObject/:itemId', (req, res) => {
     })
 
 });
+
+//post description object for a new item
+app.post('/descriptionObject', (req, res) => {
+  const descObj = req.body
+
+  db.postDescriptionObject(descObj)
+    .then(data => {
+      console.log('successful post of data', data);
+      res.sendStatus(200).send(data);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    })
+})
+
+//update description object for an item
+app.put('/descriptionObject', (req, res) => {
+  const descObj = req.body;
+  console.log('**********************')
+
+  db.putDescriptionObject(descObj)
+    .then(data => {
+      console.log('successful description update', data);
+      res.sendStatus(200).send(data);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    })
+})
 
 // app.listen(3002, () => {
 //   console.log('Express server listening on port 3002');
