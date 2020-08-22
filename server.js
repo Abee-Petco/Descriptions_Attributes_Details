@@ -4,17 +4,21 @@ const db = require('./database-mongodb/index.js');
 
 const app = express();
 
+app.use(express.json({
+  type: 'application/json',
+}));
+
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
   //local address
-  // const address = 'http://127.0.0.1'
-  // const address2 = 'http://127.0.0.1'
-  // const address3 = 'http://127.0.0.1'
+  const address = 'http://127.0.0.1'
+  const address2 = 'http://127.0.0.1'
+  const address3 = 'http://127.0.0.1'
 
   //deployed address
-  var address = 'http://52.14.208.55'; //me
-  var address2 = 'http://54.183.137.155'; // nick
-  var address3 = 'http://18.224.229.28'; // kate
+  // var address = 'http://52.14.208.55'; //me
+  // var address2 = 'http://54.183.137.155'; // nick
+  // var address3 = 'http://18.224.229.28'; // kate
 
   const { referer } = req.headers;
   if (referer) {
@@ -129,8 +133,47 @@ app.get('/descriptionObject/:itemId', (req, res) => {
 
 });
 
-// app.listen(3002, () => {
-//   console.log('Express server listening on port 3002');
-// });
+//post description object for a new item
+app.post('/descriptionObject', (req, res) => {
+  const descObj = req.body
+
+  db.postDescriptionObject(descObj)
+    .then(data => {
+      console.log('successful post of data', data);
+      res.sendStatus(200).send(data);
+    })
+    .catch(err => {
+      res.sendStatus(500).send(err);
+    })
+})
+
+//update description object for an item
+app.put('/descriptionObject/:itemId', (req, res) => {
+  const descObj = req.body;
+  const itemId = req.params.itemId;
+
+  db.putDescriptionObject(itemId, descObj)
+    .then(data => {
+      console.log('successful description update', data);
+      res.sendStatus(200).send(data);
+    })
+    .catch(err => {
+      res.sendStatus(500).send(err);
+    })
+})
+
+app.delete('/descriptionObject/:itemId', (req, res) => {
+  const itemId = req.params.itemId;
+
+  db.deleteDescriptionObject(itemId)
+    .then(data => {
+      console.log('successfully deleted description', data);
+      res.sendStatus(200)
+    })
+    .catch(err => {
+      console.log(err)
+      res.sendStatus(500).send(err);
+    })
+})
 
 module.exports = app;
