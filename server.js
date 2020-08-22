@@ -7,14 +7,14 @@ const app = express();
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
   //local address
-  // const address = 'http://127.0.0.1'
-  // const address2 = 'http://127.0.0.1'
-  // const address3 = 'http://127.0.0.1'
+  const address = 'http://127.0.0.1'
+  const address2 = 'http://127.0.0.1'
+  const address3 = 'http://127.0.0.1'
 
   //deployed address
-  var address = 'http://52.14.208.55'; //me
-  var address2 = 'http://54.183.137.155'; // nick
-  var address3 = 'http://18.224.229.28'; // kate
+  // var address = 'http://52.14.208.55'; //me
+  // var address2 = 'http://54.183.137.155'; // nick
+  // var address3 = 'http://18.224.229.28'; // kate
 
   const { referer } = req.headers;
   if (referer) {

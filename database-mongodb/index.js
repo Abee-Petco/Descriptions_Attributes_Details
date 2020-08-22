@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 //development:
-//mongoose.connect('mongodb://localhost/description_directions_attributes');
+mongoose.connect('mongodb://localhost/description_directions_attributes', { useUnifiedTopology: true, useNewUrlParser: true });
 
 //production:
-mongoose.connect('mongodb://ec2-52-14-208-55.us-east-2.compute.amazonaws.com/Description', { useUnifiedTopology: true, useNewUrlParser: true });
+// mongoose.connect('mongodb://ec2-52-14-208-55.us-east-2.compute.amazonaws.com/Description', { useUnifiedTopology: true, useNewUrlParser: true });
 
 var db = mongoose.connection;
 
