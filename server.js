@@ -4,9 +4,7 @@ const db = require('./database-mongodb/index.js');
 
 const app = express();
 
-app.use(express.json({
-  type: 'application/json',
-}));
+app.use(express.json());
 
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
@@ -140,10 +138,10 @@ app.post('/descriptionObject', (req, res) => {
   db.postDescriptionObject(descObj)
     .then(data => {
       console.log('successful post of data', data);
-      res.sendStatus(200).send(data);
+      res.sendStatus(200);
     })
     .catch(err => {
-      res.sendStatus(500).send(err);
+      res.sendStatus(500);
     })
 })
 
@@ -155,10 +153,10 @@ app.put('/descriptionObject/:itemId', (req, res) => {
   db.putDescriptionObject(itemId, descObj)
     .then(data => {
       console.log('successful description update', data);
-      res.sendStatus(200).send(data);
+      res.sendStatus(200);
     })
     .catch(err => {
-      res.sendStatus(500).send(err);
+      res.sendStatus(500);
     })
 })
 
@@ -172,7 +170,7 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
     })
     .catch(err => {
       console.log(err)
-      res.sendStatus(500).send(err);
+      res.sendStatus(500);
     })
 })
 

@@ -36,6 +36,7 @@
   "homepage": "https://github.com/PetToyCo/description_directions_attributes_#readme",
   "devDependencies": {
     "@babel/core": "^7.10.3",
+    "@babel/plugin-transform-runtime": "^7.11.0",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
     "@shelf/jest-mongodb": "^1.1.5",
