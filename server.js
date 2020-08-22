@@ -143,27 +143,37 @@ app.post('/descriptionObject', (req, res) => {
       res.sendStatus(200).send(data);
     })
     .catch(err => {
-      res.sendStatus(500);
+      res.sendStatus(500).send(err);
     })
 })
 
 //update description object for an item
-app.put('/descriptionObject', (req, res) => {
+app.put('/descriptionObject/:itemId', (req, res) => {
   const descObj = req.body;
-  console.log('**********************')
+  const itemId = req.params.itemId;
 
-  db.putDescriptionObject(descObj)
+  db.putDescriptionObject(itemId, descObj)
     .then(data => {
       console.log('successful description update', data);
       res.sendStatus(200).send(data);
     })
     .catch(err => {
-      res.sendStatus(500);
+      res.sendStatus(500).send(err);
     })
 })
 
-// app.listen(3002, () => {
-//   console.log('Express server listening on port 3002');
-// });
+app.delete('/descriptionObject/:itemId', (req, res) => {
+  const itemId = req.params.itemId;
+
+  db.deleteDescriptionObject(itemId)
+    .then(data => {
+      console.log('successfully deleted description', data);
+      res.sendStatus(200)
+    })
+    .catch(err => {
+      console.log(err)
+      res.sendStatus(500).send(err);
+    })
+})
 
 module.exports = app;

@@ -54,8 +54,12 @@ const postDescriptionObject = (descObj) => {
   return Description.create(descObj);
 }
 
-const putDescriptionObject = (descObj) => {
-  return Description.updateOne(descObj);
+const putDescriptionObject = (itemId, descObj) => {
+  return Description.findOneAndUpdate({itemId: itemId}, descObj);
+}
+
+const deleteDescriptionObject = (itemId) => {
+  return Description.findOneAndDelete({itemId: itemId});
 }
 
 module.exports.Description = Description;
@@ -65,3 +69,4 @@ module.exports.getDescriptionObject = getDescriptionObject;
 module.exports.getTitlesAndBrands = getTitlesAndBrands;
 module.exports.postDescriptionObject = postDescriptionObject;
 module.exports.putDescriptionObject = putDescriptionObject;
+module.exports.deleteDescriptionObject = deleteDescriptionObject;
