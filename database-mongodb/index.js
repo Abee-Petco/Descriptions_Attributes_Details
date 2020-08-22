@@ -44,8 +44,14 @@ const getTitlesAndBrands = (itemIds) => {
   return Description.find({ itemId: { $in: itemIds } }).select('itemId title primaryBrand -_id').lean().exec();
 }
 
+// DB Methods for getDescriptionObject
+
 const getDescriptionObject = (itemId) => {
   return Description.find({ itemId: itemId }).select('-_id -__v').lean().exec();
+}
+
+const postDescriptionObject = (descObj) => {
+  return Description.create(descObj)
 }
 
 module.exports.Description = Description;
@@ -53,3 +59,4 @@ module.exports.db = db;
 module.exports.getTitleAndBrand = getTitleAndBrand;
 module.exports.getDescriptionObject = getDescriptionObject;
 module.exports.getTitlesAndBrands = getTitlesAndBrands;
+module.exports.postDescriptionObject = postDescriptionObject;
