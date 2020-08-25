@@ -15,7 +15,7 @@
     "mockgoose": "node_env=\"mockgoose\" nodemon start.js",
     "16GB": "export NODE_OPTIONS='--max-old-space-size=16384'",
     "generator": "node database-mongodb/generator.js",
-    "seedCSV": "mongoimport --type csv -d description_directions_attributes -c descriptions --headerline --drop SDC.csv",
+    "seedCSV": "mongoimport --type csv -d description_directions_attributes -c descriptions --headerline --drop SDC.csv"
   },
   "standard": {
     "env": [
