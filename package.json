@@ -8,8 +8,11 @@
     "test": "jest --forceExit --detectOpenHandles",
     "testFront": "jest './test/reactTests.test.js' --coverage --forceExit --detectOpenHandles",
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
+    "testEndpoints": "jest './server.spec.js' --silent",
+    "testMockgoose": "jest ./database-mongodb/index.spec.js",
     "seed": "node database-mongodb/seed.js",
-    "start": "nodemon start.js "
+    "start": "nodemon start.js ",
+    "mockgoose": "node_env=\"mockgoose\" nodemon start.js"
   },
   "standard": {
     "env": [
@@ -56,6 +59,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
     "jest": "^26.1.0",
+    "mockgoose": "^8.0.4",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

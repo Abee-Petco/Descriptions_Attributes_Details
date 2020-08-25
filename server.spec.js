@@ -42,12 +42,18 @@ describe('CRUD Routes', () => {
     const res = await request.post('/descriptionObject').send(postData);
     expect(res.status).toBe(200);
 
+    const resGET = await request.get('/descriptionObject/300');
+    expect(resGET.body).toBeDefined();
+
     done();
   });
 
   it('should put data at descriptionObject route', async (done) => {
     const res = await request.put('/descriptionObject/300').send(putData);
     expect(res.status).toBe(200);
+    
+    const resGET = await request.get('/descriptionObject/300');
+    expect(resGET.body.description.title).toBe('Dead Astronauts');
 
     done();
   });
@@ -55,6 +61,13 @@ describe('CRUD Routes', () => {
   it('should delete data at descriptionObject route', async (done) => {
     const res = await request.delete('/descriptionObject/300');
     expect(res.status).toBe(200);
+
+    const resGET = await request.get('/descriptionObject/300');
+    expect(resGET.body.description).toBeUndefined();
+    expect(resGET.body.attributes).toBeUndefined();
+    expect(res.body.directions).toBeUndefined();
+    expect(resGET.body.details).toBeUndefined();
+
 
     done();
   });
