@@ -9,7 +9,8 @@
     "testFront": "jest './test/reactTests.test.js' --coverage --forceExit --detectOpenHandles",
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
     "seed": "node database-mongodb/seed.js",
-    "start": "nodemon start.js "
+    "start": "nodemon start.js ",
+    "mockgoose": "node_env=\"mockgoose\" nodemon start.js"
   },
   "standard": {
     "env": [

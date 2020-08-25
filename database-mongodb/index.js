@@ -1,16 +1,22 @@
 const mongoose = require('mongoose');
-const Mockgoose = require('mockgoose');
+const Mockgoose = require('mockgoose').Mockgoose;
 
 const mockgoose = new Mockgoose(mongoose);
 
 //development:
-if (process.env.node_env === 'test') {
-  mockgoose.prepareStorage().then(() => {
-    mongoose.connect('mongodb://localhost/description_directions_attributes', {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
+if (process.env.node_env === 'mockgoose') {
+  mockgoose
+    .prepareStorage()
+    .then(() => {
+      console.log('mockgoose running');
+      mongoose.connect('mongodb://localhost/description_directions_attributes', {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      });
+    })
+    .catch((err) => {
+      console.log('Mockgoose connection failed: ', err);
     });
-  });
 } else {
   mongoose.connect('mongodb://localhost/description_directions_attributes', {
     useUnifiedTopology: true,
