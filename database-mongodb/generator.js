@@ -8,7 +8,7 @@ const writer = csvWriter();
 
 const generator = () => {
   var itemId = 100;
-  var numberOfRecords = 10000000;
+  var numberOfRecords = 1000000;
 
   const stream = fs.createWriteStream('SDC.csv');
   writer.pipe(stream);
