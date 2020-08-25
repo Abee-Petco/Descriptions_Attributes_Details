@@ -62,6 +62,13 @@ describe('CRUD Routes', () => {
     const res = await request.delete('/descriptionObject/300');
     expect(res.status).toBe(200);
 
+    const resGET = await request.get('/descriptionObject/300');
+    expect(resGET.body.description).toBeUndefined();
+    expect(resGET.body.attributes).toBeUndefined();
+    expect(res.body.directions).toBeUndefined();
+    expect(resGET.body.details).toBeUndefined();
+
+
     done();
   });
 });
