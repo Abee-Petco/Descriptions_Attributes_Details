@@ -9,9 +9,9 @@ app.use(express.json());
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
   //local address
-  const address = 'http://127.0.0.1'
-  const address2 = 'http://127.0.0.1'
-  const address3 = 'http://127.0.0.1'
+  const address = 'http://127.0.0.1';
+  const address2 = 'http://127.0.0.1';
+  const address3 = 'http://127.0.0.1';
 
   //deployed address
   // var address = 'http://52.14.208.55'; //me
@@ -42,13 +42,12 @@ app.get('*.js', function (req, res, next) {
   req.url = req.url + '.gz';
   res.set({
     'Content-Encoding': 'gzip',
-    'Content-Type': 'application/javascript'
+    'Content-Type': 'application/javascript',
   });
   next();
 });
 
 app.use(express.static(path.join(__dirname, 'client/public')));
-
 
 //get title and brand name for an item
 app.get('/itemInformation/:itemId', (req, res) => {
@@ -69,26 +68,26 @@ app.get('/itemInformation/:itemId', (req, res) => {
 
     if (!invalidId) {
       db.getTitlesAndBrands(itemIds)
-        .then(data => {
+        .then((data) => {
           res.send(data);
         })
-        .catch(err => {
+        .catch((err) => {
           res.status(404).send('error in getTitlesAndBrands: ', err);
-        })
+        });
     }
   } else if (itemId < 100 || itemId > 199) {
     console.log(itemId);
     res.status(404).send('Invalid itemId');
   } else {
     db.getTitleAndBrand(itemId)
-      .then(data => {
+      .then((data) => {
         console.log('success getting title and brand');
         res.send(data[0]);
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(500).send(err);
         console.log('error in getTitleAndBrand: ', err);
-      })
+      });
   }
 });
 
@@ -97,8 +96,8 @@ app.get('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
 
   db.getDescriptionObject(itemId)
-    .then(data => {
-      console.log('success getting descriptionObj');
+    .then((data) => {
+      console.log('success getting descriptionObj', data);
 
       var formattedData = {
         description: {
@@ -106,44 +105,50 @@ app.get('/descriptionObject/:itemId', (req, res) => {
           description: data[0].description,
           SKU: data[0].SKU,
           primaryBrand: data[0].primaryBrand,
-          daysToShip: data[0].daysToShip
+          daysToShip: data[0].daysToShip,
         },
         directions: {
-          directions: data[0].directions
+          directions: data[0].directions,
         },
         attributes: {
           primaryColor: data[0].primaryColor,
           material: data[0].material,
           length: data[0].length,
-          width: data[0].width
+          width: data[0].width,
         },
         details: {
-          additionalDetails: data[0].additionalDetails
-        }
-      }
+          additionalDetails: data[0].additionalDetails,
+        },
+      };
 
       res.send(formattedData);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send(err);
       console.log('error in getDescriptionObject: ', err);
-    })
-
+    });
 });
 
 //post description object for a new item
 app.post('/descriptionObject', (req, res) => {
-  const descObj = req.body
+  const descObj = req.body;
 
-  db.postDescriptionObject(descObj)
-    .then(data => {
+  db.getDescriptionObject(descObj.itemId)
+    .then((result) => {
+      console.log('**************', descObj);
+      if (result[0]) res.sendStatus(409);
+      return db.postDescriptionObject(descObj)
+    })
+    .then((data) => {
+      console.log('*********************************')
       console.log('successful post of data', data);
-      res.sendStatus(200);
+      res.sendStatus(201);
     })
-    .catch(err => {
+    .catch((err) => {
+      console.log(err);
       res.sendStatus(500);
-    })
-})
+    });
+});
 
 //update description object for an item
 app.put('/descriptionObject/:itemId', (req, res) => {
@@ -151,27 +156,27 @@ app.put('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
 
   db.putDescriptionObject(itemId, descObj)
-    .then(data => {
+    .then((data) => {
       console.log('successful description update', data);
-      res.sendStatus(200);
+      !data ? res.sendStatus(201) : res.sendStatus(200);
     })
-    .catch(err => {
+    .catch((err) => {
       res.sendStatus(500);
-    })
-})
+    });
+});
 
 app.delete('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
 
   db.deleteDescriptionObject(itemId)
-    .then(data => {
+    .then((data) => {
       console.log('successfully deleted description', data);
-      res.sendStatus(200)
+      !data ? res.sendStatus(404) : res.sendStatus(200);
     })
-    .catch(err => {
-      console.log(err)
+    .catch((err) => {
+      console.log(err);
       res.sendStatus(500);
-    })
-})
+    });
+});
 
 module.exports = app;

@@ -75,11 +75,11 @@ const getDescriptionObject = (itemId) => {
 };
 
 const postDescriptionObject = (descObj) => {
-  return Description.create(descObj);
+  return Description.findOneAndUpdate({ itemId: descObj.itemId }, descObj, {upsert: true});
 };
 
 const putDescriptionObject = (itemId, descObj) => {
-  return Description.findOneAndUpdate({ itemId: itemId }, descObj);
+  return Description.findOneAndUpdate({ itemId: itemId }, descObj, {upsert: true});
 };
 
 const deleteDescriptionObject = (itemId) => {
