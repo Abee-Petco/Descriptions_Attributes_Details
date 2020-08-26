@@ -75,7 +75,7 @@ const getDescriptionObject = (itemId) => {
 };
 
 const postDescriptionObject = (descObj) => {
-  return Description.findOneAndUpdate({ itemId: descObj.itemId }, descObj, {upsert: true});
+  return Description.create(descObj);
 };
 
 const putDescriptionObject = (itemId, descObj) => {
