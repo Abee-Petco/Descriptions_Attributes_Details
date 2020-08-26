@@ -59,7 +59,7 @@ npm start
 
 
 ## Endpoints
-This service has two endpoints. One to retrieve an item's descriptionObject, and one to retrieve its title and primaryBrand. To retrieve data for a specific item (100-199), navigate to:
+This service has two initial endpoints. One to retrieve an item's descriptionObject, and one to retrieve its title and primaryBrand. To retrieve data for a specific item (100-199), navigate to:
 
 localhost:3002/descriptionObject/### 
 ```
@@ -112,6 +112,72 @@ JSON response format:
 }
 ]
 ```
+
+## Additional CRUD enpoints
+There are three additional developer endpoints that allow for POST, PUT and DELETE calls to manipulate documents.  These are not used in the front end application.
+
+Endpoint: POST /descriptionObject
+Content-type: application/json
+```
+JSON format for posting data:
+{
+  description: {
+    title: “item title”,
+    description: “item description”,
+    SKU: “number representing the item’s SKU”,
+    primaryBrand: “the item’s brand name”,
+    daysToShip: “a string representing the item’s days to ship”
+   },
+  directions: {
+    directions: “a string containing directions and warnings about the item”
+  },
+  attributes: {
+    primaryColor: “item’s primary color”,
+    material: “item’s primary material”,
+    length: “item’s length in inches as a string”,
+    width: “item’s width in inches as a string”
+  },
+  details: {
+    additionalDetails: “item’s advertising copy”
+  }
+ }
+```
+A successful POST call will respond with a 201.
+If a POST request is sent but the item page already exists, then server will respond with a 409.
+
+Endpoint: PUT /descriptionObject/:itemId
+Content-type: application/json
+```
+JSON format for document.
+{
+  description: {
+    title: “item title”,
+    description: “item description”,
+    SKU: “number representing the item’s SKU”,
+    primaryBrand: “the item’s brand name”,
+    daysToShip: “a string representing the item’s days to ship”
+   },
+  directions: {
+    directions: “a string containing directions and warnings about the item”
+  },
+  attributes: {
+    primaryColor: “item’s primary color”,
+    material: “item’s primary material”,
+    length: “item’s length in inches as a string”,
+    width: “item’s width in inches as a string”
+  },
+  details: {
+    additionalDetails: “item’s advertising copy”
+  }
+ }
+```
+If item exists and is updated, then you will receive a response code of 200.
+If item does not exist, then the PUT will create and new document and respond with a 201.
+
+Endpoint: DELETE /descriptionObject/:itemId
+Document at itemId will be removed and a status of 200 recieved.
+If the requested document itemId is not found the server will respond with a status of 404.
+
 
 ## Requirements
 Node 10.15.3
