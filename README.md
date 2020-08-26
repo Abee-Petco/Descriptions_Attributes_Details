@@ -118,29 +118,23 @@ There are three additional developer endpoints that allow for POST, PUT and DELE
 
 Endpoint: POST /descriptionObject
 Content-type: application/json
+Full document structure is required
 ```
 JSON format for posting data:
 {
-  description: {
-    title: “item title”,
-    description: “item description”,
-    SKU: “number representing the item’s SKU”,
-    primaryBrand: “the item’s brand name”,
-    daysToShip: “a string representing the item’s days to ship”
-   },
-  directions: {
-    directions: “a string containing directions and warnings about the item”
-  },
-  attributes: {
-    primaryColor: “item’s primary color”,
-    material: “item’s primary material”,
-    length: “item’s length in inches as a string”,
-    width: “item’s width in inches as a string”
-  },
-  details: {
-    additionalDetails: “item’s advertising copy”
-  }
- }
+  itemId: '300',
+  title: 'Fear and Loathing',
+  description: 'Once upon a time in the city of Los Angeles',
+  SKU: '6666666',
+  'Primary Brand': 'Gucci',
+  daysToShip: 'Ships in 365 business days',
+  directions: 'Just a toot past the watering hole',
+  primaryColor: 'coral',
+  material: 'Melted',
+  length: '7 IN',
+  width: '7 IN',
+  additionalDetails: 'Loves long walks on the beach',
+};
 ```
 A successful POST call will respond with a 201.
 If a POST request is sent but the item page already exists, then server will respond with a 409.
@@ -150,26 +144,19 @@ Content-type: application/json
 ```
 JSON format for document.
 {
-  description: {
-    title: “item title”,
-    description: “item description”,
-    SKU: “number representing the item’s SKU”,
-    primaryBrand: “the item’s brand name”,
-    daysToShip: “a string representing the item’s days to ship”
-   },
-  directions: {
-    directions: “a string containing directions and warnings about the item”
-  },
-  attributes: {
-    primaryColor: “item’s primary color”,
-    material: “item’s primary material”,
-    length: “item’s length in inches as a string”,
-    width: “item’s width in inches as a string”
-  },
-  details: {
-    additionalDetails: “item’s advertising copy”
-  }
- }
+  itemId: '300',
+  title: 'Fear and Loathing',
+  description: 'Once upon a time in the city of Los Angeles',
+  SKU: '6666666',
+  'Primary Brand': 'Gucci',
+  daysToShip: 'Ships in 365 business days',
+  directions: 'Just a toot past the watering hole',
+  primaryColor: 'coral',
+  material: 'Melted',
+  length: '7 IN',
+  width: '7 IN',
+  additionalDetails: 'Loves long walks on the beach',
+};
 ```
 If item exists and is updated, then you will receive a response code of 200.
 If item does not exist, then the PUT will create and new document and respond with a 201.
