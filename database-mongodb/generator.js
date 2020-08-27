@@ -32,11 +32,10 @@ const generator = async () => {
   var numberOfRecords = 10000000;
   let drainIndex = 0;
 
-
   for (var i = 0; i < numberOfRecords; i++) {
     let newDoc = createDoc(itemId);
 
-    if (i > 0 && i % 1000000 === 0) {
+    if (i > 0 && i % 1000000 === 0 && i !== 10000000) {
       console.log(`drain index: ${drainIndex++}`)
       console.timeLog()
       await new Promise(resolve => writer.once('drain', resolve));
