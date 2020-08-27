@@ -23,18 +23,21 @@ const createDoc = (currentId) => {
 
 const writer = csvWriter();
 const stream = fs.createWriteStream('SDC.csv');
-writer.pipe(gzip).pipe(stream);
+// writer.pipe(gzip).pipe(stream);
+writer.pipe(stream);
 
 const generator = async () => {
   console.time();
   var itemId = 100;
   var numberOfRecords = 10000000;
+  let drainIndex = 0;
 
 
   for (var i = 0; i < numberOfRecords; i++) {
     let newDoc = createDoc(itemId);
 
-    if (!writer.write(newDoc)) {
+    if (!writer.write(newDoc) && i > 0 && i % 1000000 === 0) {
+      console.timeLog(`drain index: ${drainIndex++}`)
       await new Promise(resolve => writer.once('drain', resolve));
     }
     
