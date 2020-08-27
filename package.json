@@ -13,7 +13,8 @@
     "seed": "node database-mongodb/seed.js",
     "start": "nodemon start.js ",
     "mockgoose": "node_env=\"mockgoose\" nodemon start.js",
-    "16GB": "export NODE_OPTIONS='--max-old-space-size=16384'",
+    "16GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
+    "8GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
     "generator": "node database-mongodb/generator.js",
     "seedCSV": "mongoimport --type csv -d description_directions_attributes -c descriptions --headerline --drop SDC.csv"
   },
