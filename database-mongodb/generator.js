@@ -29,13 +29,13 @@ writer.pipe(stream);
 const generator = async () => {
   console.time();
   var itemId = 100;
-  var numberOfRecords = 10000000;
+  var numberOfRecords = 1e7;
   let drainIndex = 0;
 
   for (var i = 0; i < numberOfRecords; i++) {
     let newDoc = createDoc(itemId);
 
-    if (i > 0 && i % 1000000 === 0 && i !== 10000000) {
+    if (i > 0 && i % 16e5 === 0 && i !== numberOfRecords) {
       console.log(`drain index: ${drainIndex++}`)
       console.timeLog()
       await new Promise(resolve => writer.once('drain', resolve));
