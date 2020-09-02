@@ -1,7 +1,6 @@
 const faker = require('faker');
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
-const zlib = require('zlib');
 
 const createDoc = (currentId) => {
   return {
