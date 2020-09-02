@@ -2,7 +2,6 @@ const faker = require('faker');
 const fs = require('fs');
 const csvWriter = require('csv-write-stream');
 const zlib = require('zlib');
-const gzip = zlib.createGzip();
 
 const createDoc = (currentId) => {
   return {
@@ -30,18 +29,16 @@ const generator = async () => {
   console.time();
   var itemId = 100;
   var numberOfRecords = 1e7;
-  let drainIndex = 0;
+  let isWriting;
 
   for (var i = 0; i < numberOfRecords; i++) {
     let newDoc = createDoc(itemId);
+    isWriting = writer.write(newDoc);
 
-    if (i > 0 && i % 16e5 === 0 && i !== numberOfRecords) {
-      console.timeLog();
+    if (i > 0 && !isWriting && i < numberOfRecords) {
       await new Promise(resolve => writer.once('drain', resolve));
-      console.timeLog();
     }
     
-    writer.write(newDoc);
     itemId++;
   }
 
