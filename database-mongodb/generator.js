@@ -23,7 +23,7 @@ const createDoc = (currentId) => {
 
 const writer = csvWriter();
 const stream = fs.createWriteStream('SDC.csv');
-// writer.pipe(gzip).pipe(stream);
+
 writer.pipe(stream);
 
 const generator = async () => {
@@ -36,9 +36,9 @@ const generator = async () => {
     let newDoc = createDoc(itemId);
 
     if (i > 0 && i % 16e5 === 0 && i !== numberOfRecords) {
-      console.log(`drain index: ${drainIndex++}`)
-      console.timeLog()
+      console.timeLog();
       await new Promise(resolve => writer.once('drain', resolve));
+      console.timeLog();
     }
     
     writer.write(newDoc);

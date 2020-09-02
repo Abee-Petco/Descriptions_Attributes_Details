@@ -38,13 +38,13 @@ db.once('open', () => {
 });
 
 const descriptionSchema = new mongoose.Schema({
-  itemId: String,
+  itemId: Number,
   title: {
     type: String,
     required: true,
   },
   description: String,
-  SKU: String,
+  SKU: Number,
   primaryBrand: String,
   daysToShip: String,
   directions: String,
@@ -68,7 +68,7 @@ const getTitlesAndBrands = (itemIds) => {
     .exec();
 };
 
-// DB Methods for getDescriptionObject
+// DB Methods for DescriptionObject
 
 const getDescriptionObject = (itemId) => {
   return Description.find({ itemId: itemId }).select('-_id -__v').lean().exec();
