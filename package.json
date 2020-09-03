@@ -16,8 +16,7 @@
     "16GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
     "8GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
     "generator": "node database-mongodb/generator.js",
-    "seedCSV": "mongoimport --type csv -d description_directions_attributes -c descriptions --headerline --drop SDC.csv",
-    "seedGZ": "mongorestore --gzip --archive=/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_/SDC.gz --db 'description_directions_attributes' --collection descriptions"
+    "seedCSV": "mongoimport --type csv -d description_directions_attributes -c descriptions --headerline --drop SDC.csv"
   },
   "standard": {
     "env": [

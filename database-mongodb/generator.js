@@ -35,9 +35,9 @@ const generator = async () => {
     isWriting = writer.write(newDoc);
 
     if (i > 0 && !isWriting && i < numberOfRecords) {
-      await new Promise(resolve => writer.once('drain', resolve));
+      await new Promise((resolve) => writer.once('drain', resolve));
     }
-    
+
     itemId++;
   }
 
