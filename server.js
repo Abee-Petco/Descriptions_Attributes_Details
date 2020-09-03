@@ -1,6 +1,12 @@
 const express = require('express');
 const path = require('path');
-const db = require('./database-mongodb/index.js');
+let db;
+
+if (process.env.node_env === 'postgres') {
+  db = require('./database-postgres/index.js')
+} else {
+  db = require('./database-mongodb/index.js');
+}
 
 const app = express();
 

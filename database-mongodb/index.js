@@ -34,7 +34,7 @@ db.on('error', () => {
 });
 
 db.once('open', () => {
-  console.log('connected to db');
+  console.log('connected to mongoDB');
 });
 
 const descriptionSchema = new mongoose.Schema({
