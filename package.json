@@ -12,6 +12,7 @@
     "testMockgoose": "jest ./database-mongodb/index.spec.js",
     "seed": "node database-mongodb/seed.js",
     "start": "nodemon start.js ",
+    "postgres": "node_env=\"postgres\" nodemon start.js",
     "mockgoose": "node_env=\"mockgoose\" nodemon start.js",
     "16GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
     "8GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
@@ -84,6 +85,7 @@
     "nock": "^13.0.0",
     "nodemon": "^2.0.4",
     "path": "^0.12.7",
+    "pg": "^8.3.3",
     "sinon": "^9.0.2"
   }
 }
