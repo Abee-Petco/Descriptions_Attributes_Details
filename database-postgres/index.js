@@ -1,20 +1,30 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: "samjohnson",
-  password: "localhost",
+  user: 'samjohnson',
+  password: 'localhost',
   port: 5432,
-  database: "petco_descriptions"
+  database: 'petco_descriptions',
 });
 
 module.exports.db = pool.connect((err, client, release) => {
   if (err) {
-    return console.error('connection failed', err.stack)
+    return console.error('connection failed', err.stack);
   }
   client.query('SELECT NOW()', (err, result) => {
     if (err) {
       return console.error('Error executing query', err.stack);
     }
     console.log('connected to pg', result.rows);
-  })
+  });
 });
+
+const getDescriptionObject = (itemId) => {
+  return pool
+    .query(`SELECT * FROM descriptions WHERE descriptions.itemId=${itemId}`)
+    .then((data) => {
+      return data.rows;
+    });
+};
+
+module.exports.getDescriptionObject = getDescriptionObject;
