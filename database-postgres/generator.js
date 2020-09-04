@@ -17,13 +17,15 @@ const generateColors = () => {
     colorCache[currentColor] = true;
   }
   colorList = Object.keys(colorCache);
-  colorList.map((color, index) => colorWriter.write({colorId: index, primaryColor: color}));
+  colorList.map((color, index) => colorWriter.write({ colorId: index, primaryColor: color }));
 
-  colorWriter.end()
-}
+  colorWriter.end();
+};
 
+console.time();
 generateColors();
-
+console.timeEnd();
+console.log('Color.csv complete')
 
 //Brand CSV Generator
 const brandWriter = csvWriter();
@@ -38,11 +40,52 @@ const generateBrands = () => {
     brandCache[currentBrand] = true;
   }
   brandList = Object.keys(brandCache);
-  brandList.map((brand, index) => brandWriter.write({brandId: index, primaryBrand: brand}));
+  brandList.map((brand, index) => brandWriter.write({ brandId: index, primaryBrand: brand }));
 
   brandWriter.end();
-}
+};
 
+console.time()
 generateBrands();
+console.timeEnd();
+console.log('Brand.csv complete')
 
+//Item CSV Generator
+const itemWriter = csvWriter();
+const itemStream = fs.createWriteStream('Item.csv');
+itemWriter.pipe(itemStream);
 
+const generateItems = async () => {
+  let itemId = 100;
+  let isWriting;
+
+  for (let k = 0; k < numberOfRecords; k++) {
+    let newItem = {
+      itemId: itemId,
+      title: faker.commerce.productName(),
+      description: faker.lorem.sentences(),
+      SKU: Math.floor(Math.random() * 10000000).toString(),
+      brand_id: Math.floor(Math.random() * brandList.length).toString(),
+      daysToShip: `Ships In ${Math.floor(Math.random() * 10)} Business Days`,
+      directions: faker.lorem.paragraph(),
+      color_id: Math.floor(Math.random() * colorList.length).toString(),
+      material: faker.commerce.productMaterial(),
+      length: `${Math.floor(Math.random() * 10)} IN`,
+      width: `${Math.floor(Math.random() * 10)} IN`,
+      additionalDetails: faker.lorem.paragraph(),
+    };
+
+    isWriting = itemWriter.write(newItem);
+
+    if (k > 0 && !isWriting && k < numberOfRecords) {
+      await new Promise(resolve => itemWriter.once('drain', resolve));
+    }
+
+    itemId++;
+  }
+};
+
+console.time();
+generateItems();
+console.timeEnd();
+console.log('Item.csv complete')
