@@ -20,12 +20,12 @@ const generateColors = () => {
   colorList.map((color, index) => colorWriter.write({ colorId: index, primaryColor: color }));
 
   colorWriter.end();
+  console.timeEnd();
+  console.log('Color.csv complete')
 };
 
 console.time();
 generateColors();
-console.timeEnd();
-console.log('Color.csv complete')
 
 //Brand CSV Generator
 const brandWriter = csvWriter();
@@ -50,21 +50,25 @@ const generateBrands = () => {
     if (index > 0 && !isWriting && index < brandLength) {
       await new Promise(resolve => brandWriter.once('drain', resolve));
     }
+
+    if (index % 1e5 === 0) console.log(index, 'brands generated');
+
     return;
   });
 
   brandWriter.end();
+  console.timeEnd();
+  console.log('Brand.csv complete')
 };
 
 console.time()
 generateBrands();
-console.timeEnd();
-console.log('Brand.csv complete')
 
 //Item CSV Generator
 const itemWriter = csvWriter();
 const itemStream = fs.createWriteStream('Item.csv');
 itemWriter.pipe(itemStream);
+console.time();
 
 const generateItems = async () => {
   let itemId = 100;
@@ -92,11 +96,14 @@ const generateItems = async () => {
       await new Promise(resolve => itemWriter.once('drain', resolve));
     }
 
+    if (k % 1e6 === 0) console.log(k, 'items generated');
+    
     itemId++;
   }
+
+  itemWriter.end();
+  console.log('Item.csv complete')
+  console.timeEnd();
 };
 
-console.time();
 generateItems();
-console.timeEnd();
-console.log('Item.csv complete')
