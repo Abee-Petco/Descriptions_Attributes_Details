@@ -41,11 +41,13 @@ const generateBrands = () => {
     brandCache[currentBrand] = true;
   }
   brandList = Object.keys(brandCache);
+  let brandLength = brandList.length;
+
   brandList.map(async (brand, index) => {
 
     isWriting = brandWriter.write({ brandId: index, primaryBrand: brand })
 
-    if (index > 0 && !isWriting && index < brandList.length) {
+    if (index > 0 && !isWriting && index < brandLength) {
       await new Promise(resolve => brandWriter.once('drain', resolve));
     }
     return;
