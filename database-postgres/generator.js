@@ -35,12 +35,21 @@ let brandList = [];
 
 const generateBrands = () => {
   let brandCache = {};
+  let isWriting;
   for (let j = 0; j < numberOfRecords; j++) {
     let currentBrand = faker.company.companyName();
     brandCache[currentBrand] = true;
   }
   brandList = Object.keys(brandCache);
-  brandList.map((brand, index) => brandWriter.write({ brandId: index, primaryBrand: brand }));
+  brandList.map(async (brand, index) => {
+
+    isWriting = brandWriter.write({ brandId: index, primaryBrand: brand })
+
+    if (index > 0 && !isWriting && index < brandList.length) {
+      await new Promise(resolve => brandWriter.once('drain', resolve));
+    }
+    return;
+  });
 
   brandWriter.end();
 };
