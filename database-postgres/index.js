@@ -44,8 +44,11 @@ const getTitlesAndBrands = (itemIds) => {
       `SELECT title, primarybrand FROM descriptions JOIN brands ON descriptions.brand_id=brands.brandId WHERE itemId IN (${idList})`
     )
     .then(data => {
-      console.log(data)
-      return data;
+      data.rows.map(row => {
+        row.primaryBrand = row.primarybrand;
+        delete row.primarybrand;
+      })
+      return data.rows;
     })
     .catch(err => {
       console.log('failtown');
