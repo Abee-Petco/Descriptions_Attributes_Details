@@ -78,7 +78,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
           res.send(data);
         })
         .catch((err) => {
-          res.status(404).send('error in getTitlesAndBrands: ', err);
+          res.status(404);
         });
     }
   } else if (itemId < 100 || itemId > (1e7 + 100)) {
