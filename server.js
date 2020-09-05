@@ -65,7 +65,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
     const invalidId = false;
 
     for (var i = 0; i < itemIds.length; i++) {
-      if (itemIds[i] < 100 || itemIds[i] > 199) {
+      if (itemIds[i] < 100 || itemIds[i] > (1e7 + 100)) {
         res.status(404).send('Invalid itemId');
         invalidId = true;
         break;
@@ -81,7 +81,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
           res.status(404).send('error in getTitlesAndBrands: ', err);
         });
     }
-  } else if (itemId < 100 || itemId > 199) {
+  } else if (itemId < 100 || itemId > (1e7 + 100)) {
     console.log(itemId);
     res.status(404).send('Invalid itemId');
   } else {
