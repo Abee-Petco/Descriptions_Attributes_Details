@@ -26,12 +26,29 @@ const getTitleAndBrand = (itemId) => {
       `SELECT title, primarybrand FROM descriptions JOIN brands ON descriptions.brand_id=brands.brandId WHERE itemId=${itemId}`
     )
     .then(data => {
-      console.log(data);
       data.rows[0].primaryBrand = data.rows[0].primarybrand;
       delete data.rows[0].primarybrand;
       return data;
     })
     .catch(err => {
+      throw err;
+    })
+}
+
+const getTitlesAndBrands = (itemIds) => {
+  let idList = ''
+  itemIds.map(id => idList += id + ', ')
+  idList = idList.slice(0, -2);
+  return pool
+    .query(
+      `SELECT title, primarybrand FROM descriptions JOIN brands ON descriptions.brand_id=brands.brandId WHERE itemId IN (${idList})`
+    )
+    .then(data => {
+      console.log(data)
+      return data;
+    })
+    .catch(err => {
+      console.log('failtown');
       throw err;
     })
 }
@@ -57,3 +74,4 @@ const getDescriptionObject = (itemId) => {
 
 module.exports.getDescriptionObject = getDescriptionObject;
 module.exports.getTitleAndBrand = getTitleAndBrand;
+module.exports.getTitlesAndBrands = getTitlesAndBrands;
