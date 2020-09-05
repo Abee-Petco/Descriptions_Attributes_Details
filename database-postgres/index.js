@@ -1,8 +1,8 @@
 const { Pool } = require('pg');
+const { user } = require('../config.js');
 
 const pool = new Pool({
-  user: 'samjohnson',
-  password: 'localhost',
+  user: user,
   port: 5432,
   database: 'petco_descriptions',
 });
