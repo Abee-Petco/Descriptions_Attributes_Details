@@ -21,9 +21,19 @@ module.exports.db = pool.connect((err, client, release) => {
 
 const getDescriptionObject = (itemId) => {
   return pool
-    .query(`SELECT * FROM descriptions WHERE descriptions.itemId=${itemId}`)
+    .query(
+      `SELECT * FROM descriptions JOIN colors ON descriptions.color_id=colors.colorId JOIN brands ON descriptions.brand_id=brands.brandId WHERE descriptions.itemId=${itemId}`
+    )
     .then((data) => {
+      data.rows[0].SKU = data.rows[0].sku;
+      data.rows[0].daysToShip = data.rows[0].daystoship;
+      data.rows[0].additionalDetails = data.rows[0].additionaldetails;
+      data.rows[0].primaryColor = data.rows[0].primarycolor;
+      data.rows[0].primaryBrand = data.rows[0].primarybrand;
       return data.rows;
+    })
+    .catch((err) => {
+      throw err;
     });
 };
 
