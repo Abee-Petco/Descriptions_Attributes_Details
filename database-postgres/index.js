@@ -19,6 +19,24 @@ module.exports.db = pool.connect((err, client, release) => {
   });
 });
 
+//getTitleAndBrand
+const getTitleAndBrand = (itemId) => {
+  return pool
+    .query(
+      `SELECT title, primarybrand FROM descriptions JOIN brands ON descriptions.brand_id=brands.brandId WHERE itemId=${itemId}`
+    )
+    .then(data => {
+      console.log(data);
+      data.rows[0].primaryBrand = data.rows[0].primarybrand;
+      delete data.rows[0].primarybrand;
+      return data;
+    })
+    .catch(err => {
+      throw err;
+    })
+}
+
+//getDescriptionObject controllers
 const getDescriptionObject = (itemId) => {
   return pool
     .query(
@@ -38,3 +56,4 @@ const getDescriptionObject = (itemId) => {
 };
 
 module.exports.getDescriptionObject = getDescriptionObject;
+module.exports.getTitleAndBrand = getTitleAndBrand;
