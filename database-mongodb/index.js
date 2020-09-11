@@ -81,7 +81,6 @@ const getTitleAndBrand = (itemId) => {
     { $match: { itemId: itemId } },
     {
       $project: {
-        itemId: '$itemId',
         title: '$description.title',
         primaryBrand: '$description.primaryBrand',
         _id: 0,
@@ -95,7 +94,6 @@ const getTitlesAndBrands = (itemIds) => {
     { $match: { itemId: { $in: itemIds } } },
     {
       $project: {
-        itemId: '$itemId',
         title: '$description.title',
         primaryBrand: '$description.primaryBrand',
         _id: 0,
