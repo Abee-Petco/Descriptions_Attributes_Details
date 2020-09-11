@@ -37,24 +37,6 @@ db.once('open', () => {
   console.log('connected to mongoDB');
 });
 
-// const descriptionSchema = new mongoose.Schema({
-//   itemId: Number,
-//   title: {
-//     type: String,
-//     required: true,
-//   },
-//   description: String,
-//   SKU: Number,
-//   primaryBrand: String,
-//   daysToShip: String,
-//   directions: String,
-//   primaryColor: String,
-//   material: String,
-//   length: String,
-//   width: String,
-//   additionalDetails: String,
-// });
-
 const descriptionSchema = new mongoose.Schema({
   title: {
     type: String,
