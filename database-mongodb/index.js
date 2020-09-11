@@ -65,7 +65,7 @@ const detailsSchema = new mongoose.Schema({
 
 const itemSchema = new mongoose.Schema({
   itemId: {
-    type: String,
+    type: Number,
     required: true,
   },
   description: [descriptionSchema],
