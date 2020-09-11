@@ -58,7 +58,10 @@ const descriptionSchema = new mongoose.Schema({
 const Description = mongoose.model('Description', descriptionSchema);
 
 const getTitleAndBrand = (itemId) => {
-  return Description.find({ itemId: itemId }).select('title primaryBrand -_id').lean().exec();
+  return Description.find({ itemId: itemId }, { _id: 0, itemId: 1, title: 1, primaryBrand: 1 })
+    .limit(1)
+    .lean()
+    .exec();
 };
 
 const getTitlesAndBrands = (itemIds) => {
@@ -71,7 +74,27 @@ const getTitlesAndBrands = (itemIds) => {
 // DB Methods for DescriptionObject
 
 const getDescriptionObject = (itemId) => {
-  return Description.find({ itemId: itemId }).select('-_id -__v').lean().exec();
+  return Description.find(
+    { itemId: itemId },
+    {
+      itemId: 1,
+      title: 1,
+      description: 1,
+      sku: 1,
+      daysToShip: 1,
+      directions: 1,
+      material: 1,
+      length: 1,
+      width: 1,
+      additionalDetails: 1,
+      primaryBrand: 1,
+      primaryColor: 1,
+      _id: 0,
+    }
+  )
+    .limit(1)
+    .lean()
+    .exec();
 };
 
 const postDescriptionObject = (descObj) => {
@@ -79,7 +102,7 @@ const postDescriptionObject = (descObj) => {
 };
 
 const putDescriptionObject = (itemId, descObj) => {
-  return Description.findOneAndUpdate({ itemId: itemId }, descObj, {upsert: true});
+  return Description.findOneAndUpdate({ itemId: itemId }, descObj, { upsert: true });
 };
 
 const deleteDescriptionObject = (itemId) => {
