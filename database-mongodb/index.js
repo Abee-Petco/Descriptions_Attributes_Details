@@ -98,15 +98,15 @@ const getDescriptionObject = (itemId) => {
 };
 
 const postDescriptionObject = (itemId, descObj) => {
-  return Description.update({itemId: itemId}, descObj, {upsert: true, hint: {itemId: 1}});
+  return Description.update({ itemId: itemId }, descObj, { upsert: true, hint: { itemId: 1 } });
 };
 
 const putDescriptionObject = (itemId, descObj) => {
-  return Description.findOneAndUpdate({ itemId: itemId }, descObj, { upsert: true });
+  return Description.update({ itemId: itemId }, descObj, { upsert: true, hint: { itemId: 1 } });
 };
 
 const deleteDescriptionObject = (itemId) => {
-  return Description.findOneAndDelete({ itemId: itemId });
+  return Description.remove({ itemId: itemId }, { justOne: true });
 };
 
 module.exports.Description = Description;
