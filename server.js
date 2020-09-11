@@ -87,7 +87,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
   } else {
     db.getTitleAndBrand(itemId)
       .then((data) => {
-        console.log('success getting title and brand');
+        console.log('success getting title and brand', data);
         res.send(data[0]);
       })
       .catch((err) => {
