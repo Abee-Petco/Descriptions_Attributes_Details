@@ -9,7 +9,7 @@ if (process.env.node_env === 'mockgoose') {
     .prepareStorage()
     .then(() => {
       console.log('mockgoose running');
-      mongoose.connect('mongodb://localhost/description_directions_attributes', {
+      mongoose.connect('mongodb://localhost/petco_descriptions', {
         useUnifiedTopology: true,
         useNewUrlParser: true,
       });
@@ -18,7 +18,7 @@ if (process.env.node_env === 'mockgoose') {
       console.log('Mockgoose connection failed: ', err);
     });
 } else {
-  mongoose.connect('mongodb://localhost/description_directions_attributes', {
+  mongoose.connect('mongodb://localhost/petco_descriptions', {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
@@ -37,8 +37,25 @@ db.once('open', () => {
   console.log('connected to mongoDB');
 });
 
+// const descriptionSchema = new mongoose.Schema({
+//   itemId: Number,
+//   title: {
+//     type: String,
+//     required: true,
+//   },
+//   description: String,
+//   SKU: Number,
+//   primaryBrand: String,
+//   daysToShip: String,
+//   directions: String,
+//   primaryColor: String,
+//   material: String,
+//   length: String,
+//   width: String,
+//   additionalDetails: String,
+// });
+
 const descriptionSchema = new mongoose.Schema({
-  itemId: Number,
   title: {
     type: String,
     required: true,
@@ -47,15 +64,35 @@ const descriptionSchema = new mongoose.Schema({
   SKU: Number,
   primaryBrand: String,
   daysToShip: String,
+});
+
+const directionsSchema = new mongoose.Schema({
   directions: String,
+});
+
+const attributesSchema = new mongoose.Schema({
   primaryColor: String,
   material: String,
   length: String,
   width: String,
+});
+
+const detailsSchema = new mongoose.Schema({
   additionalDetails: String,
 });
 
-const Description = mongoose.model('Description', descriptionSchema);
+const itemSchema = new mongoose.Schema({
+  itemId: {
+    type: Number,
+    required: true,
+  },
+  description: [descriptionSchema],
+  directions: [directionsSchema],
+  attributes: [attributesSchema],
+  details: [detailsSchema],
+});
+
+const Description = mongoose.model('Description', itemSchema);
 
 const getTitleAndBrand = (itemId) => {
   return Description.find({ itemId: itemId }, { _id: 0, itemId: 1, title: 1, primaryBrand: 1 })
@@ -74,27 +111,7 @@ const getTitlesAndBrands = (itemIds) => {
 // DB Methods for DescriptionObject
 
 const getDescriptionObject = (itemId) => {
-  return Description.find(
-    { itemId: itemId },
-    {
-      itemId: 1,
-      title: 1,
-      description: 1,
-      sku: 1,
-      daysToShip: 1,
-      directions: 1,
-      material: 1,
-      length: 1,
-      width: 1,
-      additionalDetails: 1,
-      primaryBrand: 1,
-      primaryColor: 1,
-      _id: 0,
-    }
-  )
-    .limit(1)
-    .lean()
-    .exec();
+  return Description.find({ itemId: itemId }, {_id: 0, itemId: 0}).limit(1).lean().exec();
 };
 
 const postDescriptionObject = (itemId, descObj) => {
