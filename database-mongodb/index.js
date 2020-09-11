@@ -43,7 +43,7 @@ const descriptionSchema = new mongoose.Schema({
     required: true,
   },
   description: String,
-  SKU: Number,
+  SKU: String,
   primaryBrand: String,
   daysToShip: String,
 });
