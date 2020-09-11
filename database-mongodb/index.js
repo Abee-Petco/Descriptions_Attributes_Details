@@ -77,10 +77,17 @@ const itemSchema = new mongoose.Schema({
 const Description = mongoose.model('Description', itemSchema);
 
 const getTitleAndBrand = (itemId) => {
-  return Description.find({ itemId: itemId }, { _id: 0, itemId: 1, title: 1, primaryBrand: 1 })
-    .limit(1)
-    .lean()
-    .exec();
+  return Description.aggregate([
+    { $match: { itemId: parseInt(itemId) } },
+    {
+      $project: {
+        itemId: '$itemId',
+        title: '$description.title',
+        primaryBrand: '$description.primaryBrand',
+        _id: 0,
+      },
+    },
+  ]).exec();
 };
 
 const getTitlesAndBrands = (itemIds) => {
@@ -93,7 +100,7 @@ const getTitlesAndBrands = (itemIds) => {
 // DB Methods for DescriptionObject
 
 const getDescriptionObject = (itemId) => {
-  return Description.find({ itemId: itemId }, {_id: 0, itemId: 0}).limit(1).lean().exec();
+  return Description.find({ itemId: itemId }, { _id: 0, itemId: 0 }).limit(1).lean().exec();
 };
 
 const postDescriptionObject = (itemId, descObj) => {
