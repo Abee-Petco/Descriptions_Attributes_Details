@@ -97,8 +97,8 @@ const getDescriptionObject = (itemId) => {
     .exec();
 };
 
-const postDescriptionObject = (descObj) => {
-  return Description.create(descObj);
+const postDescriptionObject = (itemId, descObj) => {
+  return Description.update({itemId: itemId}, descObj, {upsert: true, hint: {itemId: 1}});
 };
 
 const putDescriptionObject = (itemId, descObj) => {

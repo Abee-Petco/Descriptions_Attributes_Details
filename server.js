@@ -145,7 +145,7 @@ app.post('/descriptionObject', (req, res) => {
         res.sendStatus(409);
         return;
       };
-      return db.postDescriptionObject(descObj)
+      return db.postDescriptionObject(descObj.itemId, descObj)
     })
     .then((data) => {
       console.log('successful post of data', data);
