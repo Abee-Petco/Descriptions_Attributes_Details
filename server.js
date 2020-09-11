@@ -61,7 +61,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
 
   if (itemId.includes('array')) {
     const itemsInArray = itemId.substring(5);
-    const itemIds = itemsInArray.split(',');
+    const itemIds = itemsInArray.split(',').map(id => parseInt(id));
     const invalidId = false;
 
     for (var i = 0; i < itemIds.length; i++) {
@@ -85,7 +85,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
     console.log(itemId);
     res.status(404).send('Invalid itemId');
   } else {
-    db.getTitleAndBrand(itemId)
+    db.getTitleAndBrand(parseInt(itemId))
       .then((data) => {
         console.log('success getting title and brand', data);
         res.send(data[0]);
