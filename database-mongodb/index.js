@@ -65,7 +65,7 @@ const detailsSchema = new mongoose.Schema({
 
 const itemSchema = new mongoose.Schema({
   itemId: {
-    type: Number,
+    type: String,
     required: true,
   },
   description: [descriptionSchema],
@@ -78,7 +78,7 @@ const Description = mongoose.model('Description', itemSchema);
 
 const getTitleAndBrand = (itemId) => {
   return Description.aggregate([
-    { $match: { itemId: parseInt(itemId) } },
+    { $match: { itemId: itemId } },
     {
       $project: {
         itemId: '$itemId',
@@ -91,10 +91,17 @@ const getTitleAndBrand = (itemId) => {
 };
 
 const getTitlesAndBrands = (itemIds) => {
-  return Description.find({ itemId: { $in: itemIds } })
-    .select('itemId title primaryBrand -_id')
-    .lean()
-    .exec();
+  return Description.aggregate([
+    { $match: { itemId: { $in: itemIds } } },
+    {
+      $project: {
+        itemId: '$itemId',
+        title: '$description.title',
+        primaryBrand: '$description.primaryBrand',
+        _id: 0,
+      },
+    },
+  ]);
 };
 
 // DB Methods for DescriptionObject
