@@ -25,42 +25,42 @@ const getTitleAndBrand = (itemId) => {
     .query(
       `SELECT title, primarybrand FROM descriptions JOIN brands ON descriptions.brand_id=brands.brandId WHERE itemId=${itemId}`
     )
-    .then(data => {
+    .then((data) => {
       data.rows[0].primaryBrand = data.rows[0].primarybrand;
       delete data.rows[0].primarybrand;
       return data;
     })
-    .catch(err => {
+    .catch((err) => {
       throw err;
-    })
-}
+    });
+};
 
 const getTitlesAndBrands = (itemIds) => {
-  let idList = ''
-  itemIds.map(id => idList += id + ', ')
+  let idList = '';
+  itemIds.map((id) => (idList += id + ', '));
   idList = idList.slice(0, -2);
   return pool
     .query(
       `SELECT title, primarybrand FROM descriptions JOIN brands ON descriptions.brand_id=brands.brandId WHERE itemId IN (${idList})`
     )
-    .then(data => {
-      data.rows.map(row => {
+    .then((data) => {
+      data.rows.map((row) => {
         row.primaryBrand = row.primarybrand;
         delete row.primarybrand;
-      })
+      });
       return data.rows;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('failtown');
       throw err;
-    })
-}
+    });
+};
 
 //getDescriptionObject controllers
-const getDescriptionObject = (itemId) => {
+const getDescriptionObject = (itemId) => { 
   return pool
     .query(
-      `SELECT * FROM descriptions JOIN colors ON descriptions.color_id=colors.colorId JOIN brands ON descriptions.brand_id=brands.brandId WHERE descriptions.itemId=${itemId}`
+      `SELECT itemId, title, description, sku, daysToShip, directions, material, length, width, additionalDetails, primaryBrand, primaryColor FROM descriptions JOIN colors ON descriptions.color_id=colors.colorId JOIN brands ON descriptions.brand_id=brands.brandId WHERE descriptions.itemId=${itemId}`
     )
     .then((data) => {
       data.rows[0].SKU = data.rows[0].sku;

@@ -37,13 +37,16 @@ db.once('open', () => {
   console.log('connected to mongoDB');
 });
 
+
+//MODELS SECTION
+
 const descriptionSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
   description: String,
-  SKU: String,
+  SKU: Number,
   primaryBrand: String,
   daysToShip: String,
 });
@@ -76,6 +79,9 @@ const itemSchema = new mongoose.Schema({
 
 const Description = mongoose.model('Description', itemSchema);
 
+
+//itemInformation Controllers
+
 const getTitleAndBrand = (itemId) => {
   return Description.aggregate([
     { $match: { itemId: itemId } },
@@ -102,7 +108,7 @@ const getTitlesAndBrands = (itemIds) => {
   ]);
 };
 
-// DB Methods for DescriptionObject
+// descriptionObject Controllers
 
 const getDescriptionObject = (itemId) => {
   return Description.find({ itemId: itemId }, { _id: 0, itemId: 0 }).limit(1).lean().exec();
