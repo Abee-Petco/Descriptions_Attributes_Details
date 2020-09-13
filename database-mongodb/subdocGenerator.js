@@ -8,7 +8,7 @@ const createDoc = (currentId) => {
     "description": {
       "title": faker.commerce.productName(),
       "description": faker.lorem.sentences(),
-      "SKU": Math.floor(Math.random() * 10000000).toString(),
+      "SKU": Math.floor(Math.random() * 10000000),
       "primaryBrand": faker.company.companyName(),
       "daysToShip": `Ships In ${Math.floor(Math.random() * 10)} Business Days`
     },

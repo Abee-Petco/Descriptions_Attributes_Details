@@ -51,8 +51,6 @@ const generateBrands = () => {
       await new Promise(resolve => brandWriter.once('drain', resolve));
     }
 
-    if (index % 1e5 === 0) console.log(index, 'brands generated');
-
     return;
   });
 
