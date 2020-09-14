@@ -26,12 +26,14 @@ const argv = require('minimist')(process.argv.slice(2));
     }
   );
 
-  axios.get('http://localhost:3002/?=116')
+  axios.get(argv.url)
     .then(res => {
-      console.log('wintown')
-      console.log(res.duration)
+      // console.log('wintown')
+      // console.log(res.duration)
+      process.stdout.write(res.duration.toString());
+      process.exitCode = 0;
     })
     .catch(err => {
-      console.log('failtown')
+      process.exitCode = 1;
     })
 })();
