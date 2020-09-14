@@ -83,6 +83,7 @@
     "express": "^4.17.1",
     "faker": "^4.1.0",
     "fetch": "^1.1.0",
+    "minimist": "^1.2.5",
     "mongoose": "^5.9.19",
     "newrelic": "^6.13.0",
     "nock": "^13.0.0",
