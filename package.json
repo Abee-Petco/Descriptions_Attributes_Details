@@ -18,7 +18,8 @@
     "8GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
     "generator": "node database-mongodb/generator.js",
     "seedCSV": "mongoimport --type csv -d description_directions_attributes -c descriptions --headerline --drop SDC.csv",
-    "seedJSON": "mongoimport --type json -d petco_descriptions -c descriptions --headerline --drop SDC.json"
+    "seedJSON": "mongoimport --type json -d petco_descriptions -c descriptions --headerline --drop SDC.json",
+    "stressTest": "node spawn.js"
   },
   "standard": {
     "env": [
