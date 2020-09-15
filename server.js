@@ -4,7 +4,7 @@ const path = require('path');
 let db;
 
 if (process.env.node_env === 'postgres') {
-  db = require('./database-postgres/index.js')
+  db = require('./database-postgres/index.js');
 } else {
   db = require('./database-mongodb/index.js');
 }
@@ -62,11 +62,11 @@ app.get('/itemInformation/:itemId', (req, res) => {
 
   if (itemId.includes('array')) {
     const itemsInArray = itemId.substring(5);
-    const itemIds = itemsInArray.split(',').map(id => parseInt(id));
+    const itemIds = itemsInArray.split(',').map((id) => parseInt(id));
     const invalidId = false;
 
     for (var i = 0; i < itemIds.length; i++) {
-      if (itemIds[i] < 100 || itemIds[i] > (1e7 + 100)) {
+      if (itemIds[i] < 100 || itemIds[i] > 1e7 + 100) {
         res.status(404).send('Invalid itemId');
         invalidId = true;
         break;
@@ -82,7 +82,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
           res.status(404);
         });
     }
-  } else if (itemId < 100 || itemId > (1e7 + 100)) {
+  } else if (itemId < 100 || itemId > 1e7 + 100) {
     console.log(itemId);
     res.status(404).send('Invalid itemId');
   } else {
@@ -105,7 +105,7 @@ app.get('/descriptionObject/:itemId', (req, res) => {
   db.getDescriptionObject(itemId)
     .then((data) => {
       console.log('success getting descriptionObj', data);
-      res.send(data[0]);
+      !data[0] ? res.sendStatus(404) : res.send(data[0]);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -119,15 +119,12 @@ app.post('/descriptionObject', (req, res) => {
 
   db.getDescriptionObject(descObj.itemId)
     .then((result) => {
-      if (result[0]) {
-        res.sendStatus(409);
-        return;
-      };
-      return db.postDescriptionObject(descObj.itemId, descObj)
+      return db.postDescriptionObject(descObj.itemId, descObj);
     })
     .then((data) => {
+      console.log('*************************');
       console.log('successful post of data', data);
-      res.sendStatus(201);
+      !data[0] ? res.sendStatus(409) : res.sendStatus(201);
     })
     .catch((err) => {
       console.log(err);

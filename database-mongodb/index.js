@@ -49,32 +49,32 @@ const descriptionSchema = new mongoose.Schema({
   SKU: Number,
   primaryBrand: String,
   daysToShip: String,
-});
+}, {_id: false});
 
 const directionsSchema = new mongoose.Schema({
   directions: String,
-});
+}, {_id: false});
 
 const attributesSchema = new mongoose.Schema({
   primaryColor: String,
   material: String,
   length: String,
   width: String,
-});
+}, {_id: false});
 
 const detailsSchema = new mongoose.Schema({
   additionalDetails: String,
-});
+}, {_id: false});
 
 const itemSchema = new mongoose.Schema({
   itemId: {
     type: Number,
     required: true,
   },
-  description: [descriptionSchema],
-  directions: [directionsSchema],
-  attributes: [attributesSchema],
-  details: [detailsSchema],
+  description: descriptionSchema,
+  directions: directionsSchema,
+  attributes: attributesSchema,
+  details: detailsSchema,
 });
 
 const Description = mongoose.model('Description', itemSchema);
@@ -111,7 +111,7 @@ const getTitlesAndBrands = (itemIds) => {
 // descriptionObject Controllers
 
 const getDescriptionObject = (itemId) => {
-  return Description.find({ itemId: itemId }, { _id: 0, itemId: 0 }).limit(1).lean().exec();
+  return Description.find({ itemId: itemId }, { _id: 0, __v: 0, itemId: 0 }).limit(1).lean().exec();
 };
 
 const postDescriptionObject = (itemId, descObj) => {
