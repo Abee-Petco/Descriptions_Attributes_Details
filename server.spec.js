@@ -3,7 +3,7 @@ const app = require('./server.js');
 const request = supertest(app);
 
 const postData = {
-  itemId: '300',
+  itemId: '20',
   description: {
     title: 'Fear and Loathing',
     description: 'Once upon a time in the city of Los Angeles',
@@ -71,8 +71,10 @@ describe('CRUD Routes', () => {
     const res = await request.post('/descriptionObject').send(postData);
     expect(res.status).toBe(201);
 
-    const resGET = await request.get('/descriptionObject/300');
+    const resGET = await request.get('/descriptionObject/20');
     expect(resGET.body).toBeDefined();
+
+    await request.delete('/descriptionObject/20')
 
     done();
   });
