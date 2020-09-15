@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 const childProc = require('child_process');
-const childProcesses = 1000;
+const childProcesses = 200;
 const testURL = 'http://localhost:3002/?=2974561';
 
 (() => {
