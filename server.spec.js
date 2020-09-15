@@ -3,7 +3,7 @@ const app = require('./server.js');
 const request = supertest(app);
 
 const postData = {
-  itemId: '20',
+  itemId: '66',
   description: {
     title: 'Fear and Loathing',
     description: 'Once upon a time in the city of Los Angeles',
@@ -26,7 +26,7 @@ const postData = {
 };
 
 const putData = {
-  itemId: '300',
+  itemId: '66',
   description: {
     title: 'Dead Astronauts',
     description: 'Once upon a time in the city of Los Angeles',
@@ -46,7 +46,7 @@ const putData = {
   details: {
     additionalDetails: 'Loves long walks on the beach',
   },
-};;
+};
 
 describe('CRUD Routes', () => {
   it('should respond with descriptions data at itemIds 100-200', async (done) => {
@@ -71,30 +71,27 @@ describe('CRUD Routes', () => {
     const res = await request.post('/descriptionObject').send(postData);
     expect(res.status).toBe(201);
 
-    const resGET = await request.get('/descriptionObject/20');
+    const resGET = await request.get('/descriptionObject/66');
     expect(resGET.body).toBeDefined();
-
-    await request.delete('/descriptionObject/20')
 
     done();
   });
 
   it('should put data at descriptionObject route', async (done) => {
-    const res = await request.put('/descriptionObject/66').send(postData);
+    const res = await request.put('/descriptionObject/66').send(putData);
     expect(res.status).toBe(200);
 
     const resGET = await request.get('/descriptionObject/66');
-    console.log('*******************', resGET.body);
     expect(resGET.body.description.title).toBe('Dead Astronauts');
 
     done();
   });
 
   it('should delete data at descriptionObject route', async (done) => {
-    const res = await request.delete('/descriptionObject/300');
+    const res = await request.delete('/descriptionObject/66');
     expect(res.status).toBe(200);
 
-    const resGET = await request.get('/descriptionObject/300');
+    const resGET = await request.get('/descriptionObject/66');
     expect(resGET.body.description).toBeUndefined();
     expect(resGET.body.attributes).toBeUndefined();
     expect(res.body.directions).toBeUndefined();
