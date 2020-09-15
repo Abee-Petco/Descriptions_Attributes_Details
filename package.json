@@ -8,7 +8,7 @@
     "test": "jest --forceExit --detectOpenHandles",
     "testFront": "jest './test/reactTests.test.js' --coverage --forceExit --detectOpenHandles",
     "testBack": "jest './test/mongodbTests.test.js' --forceExit --detectOpenHandles",
-    "testEndpoints": "jest './server.spec.js' --silent",
+    "testEndpoints": "jest './server.spec.js'",
     "testMockgoose": "jest ./database-mongodb/index.spec.js",
     "seed": "node database-mongodb/seed.js",
     "start": "nodemon start.js ",
