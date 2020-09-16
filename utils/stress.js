@@ -1,8 +1,6 @@
 const axios = require('axios');
 const Promise = require('bluebird');
 const argv = require('minimist')(process.argv.slice(2));
-const json = require('../SDC.json');
-console.log(json[0]);
 
 (() => {
   axios.interceptors.request.use(
