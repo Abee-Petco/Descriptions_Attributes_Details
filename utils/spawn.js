@@ -1,11 +1,11 @@
 const Promise = require('bluebird');
 const childProc = require('child_process');
 const childProcesses = 1000;
-const testURL = 'http://localhost:3002/?=2974561';
-let ids = require('../IDs.json');
+let ids = require('./IDs.json');
 ids = JSON.parse(ids);
 
 (() => {
+  console.time();
   let times = [];
   let children = [];
 
@@ -27,9 +27,10 @@ ids = JSON.parse(ids);
 
   Promise.all(responses).then((resolvedResponses) => {
     if (resolvedResponses.filter(Boolean).length === responses.length) {
-      const total = times.reduce((a, b) => a + b, 0);
-      console.log(`1k response time: ${total}ms`);
+      const avg = Math.floor(times.reduce((a, b) => a + b, 0) / (times.length || 1));
+      console.log(`avg res time: ${avg}`);
       console.log('processes complete');
+      console.timeEnd();
     } else {
       console.log('failures during processes');
     }
