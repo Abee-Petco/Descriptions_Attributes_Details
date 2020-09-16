@@ -13,7 +13,7 @@ if (process.env.node_env === 'postgres') {
 const app = express();
 
 app.use(express.json());
-// app.use(morgan('dev'));
+// app.use(morgan('tiny'));
 
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
