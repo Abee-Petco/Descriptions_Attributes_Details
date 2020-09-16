@@ -1,4 +1,5 @@
 const newrelic = require('newrelic');
+const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
 let db;
@@ -11,6 +12,7 @@ if (process.env.node_env === 'postgres') {
 
 const app = express();
 
+app.use(morgan('dev'));
 app.use(express.json());
 
 //crossorigin permission for 3000, 3004, 3005 and 3006
@@ -105,7 +107,7 @@ app.get('/descriptionObject/:itemId', (req, res) => {
   db.getDescriptionObject(itemId)
     .then((data) => {
       console.log('success getting descriptionObj', data);
-      !data[0] ? res.sendStatus(404) : res.send(data[0]);
+      res.send(data[0]);
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -121,13 +123,13 @@ app.post('/descriptionObject', (req, res) => {
     .then((result) => {
       if (result[0]) {
         res.sendStatus(409);
-      } else {
-        return db.postDescriptionObject(descObj.itemId, descObj)
-      }
+        return;
+      };
+      return db.postDescriptionObject(descObj.itemId, descObj)
     })
     .then((data) => {
-      console.log('successful post of data:', !!data);
-      data ? res.sendStatus(201) : null;
+      console.log('successful post of data', data);
+      res.sendStatus(201);
     })
     .catch((err) => {
       console.log(err);
