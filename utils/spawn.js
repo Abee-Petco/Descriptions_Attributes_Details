@@ -2,13 +2,15 @@ const Promise = require('bluebird');
 const childProc = require('child_process');
 const childProcesses = 1000;
 const testURL = 'http://localhost:3002/?=2974561';
+let ids = require('../IDs.json');
+ids = JSON.parse(ids);
 
 (() => {
   let times = [];
   let children = [];
 
   for (let i = 0; i < childProcesses; i++) {
-    let child = childProc.spawn('node', ['utils/stress.js', `--url=${testURL}`]);
+    let child = childProc.spawn('node', ['utils/stress.js', `--url=http://localhost:3002/?=${ids[i].itemId}`]);
     children.push(child);
   }
 
