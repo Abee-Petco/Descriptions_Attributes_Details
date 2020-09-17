@@ -1,15 +1,20 @@
 config:
-  target: "http://localhost:3002"
+  target: 'http://localhost:3002'
   http:
     pool: 10
   phases:
-    - duration: 10
+    - duration: 60
       arrivalRate: 10
 scenarios:
   - flow:
-    - loop:
-      - get:
-          url: "/?={{$randomNumber(100, 10000100)}}"
-      - get:
-          url: "/descriptionObject/{{$randomNumber(100, 10000100)}}"
-      count: 100
+      - loop:
+          - post:
+          - get:
+              url: '/?={{$randomNumber(100, 10000100)}}'
+          - get:
+              url: '/descriptionObject/{{$randomNumber(100, 10000100)}}'
+          - get:
+              url: '/itemInformation/{{$randomNumber(100, 10000100)}}'
+          - get:
+              url: '/itemInformation/array{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}}'
+        count: 100
