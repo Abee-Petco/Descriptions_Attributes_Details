@@ -90,7 +90,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
   } else {
     db.getTitleAndBrand(parseInt(itemId))
       .then((data) => {
-        console.log('success getting title and brand', data);
+        // console.log('success getting title and brand', data);
         res.send(data[0]);
       })
       .catch((err) => {
@@ -106,7 +106,7 @@ app.get('/descriptionObject/:itemId', (req, res) => {
 
   db.getDescriptionObject(itemId)
     .then((data) => {
-      console.log('success getting descriptionObj', data);
+      // console.log('success getting descriptionObj', data);
       res.send(data[0]);
     })
     .catch((err) => {
@@ -128,7 +128,7 @@ app.post('/descriptionObject', (req, res) => {
       return db.postDescriptionObject(descObj.itemId, descObj)
     })
     .then((data) => {
-      console.log('successful post of data', data);
+      // console.log('successful post of data', data);
       res.sendStatus(201);
     })
     .catch((err) => {
@@ -144,7 +144,7 @@ app.put('/descriptionObject/:itemId', (req, res) => {
 
   db.putDescriptionObject(itemId, descObj)
     .then((data) => {
-      console.log('successful description update', data);
+      // console.log('successful description update', data);
       !data ? res.sendStatus(201) : res.sendStatus(200);
     })
     .catch((err) => {
@@ -157,7 +157,7 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
 
   db.deleteDescriptionObject(itemId)
     .then((data) => {
-      console.log('successfully deleted description', data);
+      // console.log('successfully deleted description', data);
       !data ? res.sendStatus(404) : res.sendStatus(200);
     })
     .catch((err) => {

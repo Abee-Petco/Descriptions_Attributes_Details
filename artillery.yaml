@@ -10,4 +10,6 @@ scenarios:
     - loop:
       - get:
           url: "/?={{$randomNumber(100, 10000100)}}"
+      - get:
+          url: "/descriptionObject/{{$randomNumber(100, 10000100)}}"
       count: 100
