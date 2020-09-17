@@ -13,7 +13,7 @@ if (process.env.node_env === 'postgres') {
 const app = express();
 
 app.use(express.json());
-// app.use(morgan('tiny'));
+// app.use(morgan('dev'));
 
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
@@ -85,7 +85,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
         });
     }
   } else if (itemId < 100 || itemId > (1e7 + 100)) {
-    console.log(itemId);
+    // console.log(itemId);
     res.status(404).send('Invalid itemId');
   } else {
     db.getTitleAndBrand(parseInt(itemId))
@@ -95,7 +95,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
       })
       .catch((err) => {
         res.status(500).send(err);
-        console.log('error in getTitleAndBrand: ', err);
+        // console.log('error in getTitleAndBrand: ', err);
       });
   }
 });
@@ -107,11 +107,11 @@ app.get('/descriptionObject/:itemId', (req, res) => {
   db.getDescriptionObject(itemId)
     .then((data) => {
       // console.log('success getting descriptionObj', data);
-      res.send(data[0]);
+      !data[0] ? res.sendStatus(404) : res.send(data[0]);
     })
     .catch((err) => {
       res.status(500).send(err);
-      console.log('error in getDescriptionObject: ', err);
+      // console.log('error in getDescriptionObject: ', err);
     });
 });
 
@@ -123,16 +123,16 @@ app.post('/descriptionObject', (req, res) => {
     .then((result) => {
       if (result[0]) {
         res.sendStatus(409);
-        return;
-      };
-      return db.postDescriptionObject(descObj.itemId, descObj)
+      } else {
+        return db.postDescriptionObject(descObj.itemId, descObj)
+      }
     })
     .then((data) => {
-      // console.log('successful post of data', data);
-      res.sendStatus(201);
+      // console.log('successful post of data:', !!data);
+      data ? res.sendStatus(201) : null;
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       res.sendStatus(500);
     });
 });
@@ -161,7 +161,7 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
       !data ? res.sendStatus(404) : res.sendStatus(200);
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       res.sendStatus(500);
     });
 });
