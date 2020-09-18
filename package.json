@@ -16,6 +16,8 @@
     "mockgoose": "node_env=\"mockgoose\" nodemon start.js",
     "16GB": "export NODE_OPTIONS='--max-old-space-size=16382'",
     "8GB": "export NODE_OPTIONS='--max-old-space-size=8192'",
+    "4GB": "export NODE_OPTIONS='--max-old-space-size=4096'",
+    "2GB": "export NODE_OPTIONS='--max-old-space-size=2048'",
     "generator": "node database-mongodb/generator.js",
     "seedCSV": "mongoimport --type csv -d description_directions_attributes -c descriptions --headerline --drop SDC.csv",
     "seedJSON": "mongoimport --type json -d petco_descriptions -c descriptions --headerline --drop SDC.json",

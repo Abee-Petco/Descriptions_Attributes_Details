@@ -2,6 +2,7 @@ config:
   target: 'http://localhost:3002'
   http:
     pool: 10
+    timeout: 3
   phases:
     - duration: 120
       arrivalRate: 1
