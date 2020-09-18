@@ -3,11 +3,13 @@ config:
   http:
     pool: 10
   phases:
-    - duration: 120
+    - duration: 10
       arrivalRate: 1
-      rampTo: 10
       name: "Warm Up"
-    - duration: 120
+    - duration: 20
+      arrivalRate: 5
+      name: "Midpoint"
+    - duration: 30
       arrivalRate: 10
       name: "Sustain Max"
 scenarios:
