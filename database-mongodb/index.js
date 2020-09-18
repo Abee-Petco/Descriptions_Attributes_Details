@@ -115,7 +115,7 @@ const getDescriptionObject = (itemId) => {
 };
 
 const postDescriptionObject = (descObj) => {
-  return Description.create(descObj);
+  return new Description(descObj).save({validateBeforeSave: false});
 };
 
 const putDescriptionObject = (itemId, descObj) => {
