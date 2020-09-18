@@ -142,7 +142,7 @@ app.post('/descriptionObject', (req, res) => {
 
   db.postDescriptionObject(descObj)
     .then((data) => {
-      console.log('successful post of data:', data);
+      // console.log('successful post of data:', data);
       data ? res.sendStatus(201) : null;
     })
     .catch((err) => {
