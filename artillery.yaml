@@ -4,6 +4,10 @@ config:
     pool: 10
   phases:
     - duration: 10
+      arrivalRate: 1
+    - duration: 20
+      arrivalRate: 5
+    - duration: 30
       arrivalRate: 10
 scenarios:
   - flow:
