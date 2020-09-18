@@ -116,24 +116,37 @@ app.get('/descriptionObject/:itemId', (req, res) => {
 });
 
 //post description object for a new item
+// app.post('/descriptionObject', (req, res) => {
+//   const descObj = req.body;
+
+//   db.getDescriptionObject(descObj.itemId)
+//     .then((result) => {
+//       if (result[0]) {
+//         res.sendStatus(409);
+//       } else {
+//         return db.postDescriptionObject(descObj.itemId, descObj)
+//       }
+//     })
+//     .then((data) => {
+//       // console.log('successful post of data:', !!data);
+//       data ? res.sendStatus(201) : null;
+//     })
+//     .catch((err) => {
+//       // console.log(err);
+//       res.sendStatus(500);
+//     });
+// });
+
 app.post('/descriptionObject', (req, res) => {
   const descObj = req.body;
 
-  db.getDescriptionObject(descObj.itemId)
-    .then((result) => {
-      if (result[0]) {
-        res.sendStatus(409);
-      } else {
-        return db.postDescriptionObject(descObj.itemId, descObj)
-      }
-    })
+  db.postDescriptionObject(descObj)
     .then((data) => {
-      // console.log('successful post of data:', !!data);
+      console.log('successful post of data:', data);
       data ? res.sendStatus(201) : null;
     })
     .catch((err) => {
-      // console.log(err);
-      res.sendStatus(500);
+      err.code === 11000 ? res.sendStatus(409) : res.sendStatus(500);
     });
 });
 
