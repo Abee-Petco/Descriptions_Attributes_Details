@@ -114,8 +114,8 @@ const getDescriptionObject = (itemId) => {
   return Description.find({ itemId: itemId }, { _id: 0, __v: 0, itemId: 0 }).limit(1).lean().exec();
 };
 
-const postDescriptionObject = (itemId, descObj) => {
-  return Description.update({ itemId: itemId }, descObj, { upsert: true, hint: { itemId: 1 } });
+const postDescriptionObject = (descObj) => {
+  return Description.create(descObj);
 };
 
 const putDescriptionObject = (itemId, descObj) => {
