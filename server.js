@@ -2,10 +2,12 @@ const newrelic = require('newrelic');
 const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
+const redis = require('redis');
+const client = redis.createClient();
 let db;
 
 if (process.env.node_env === 'postgres') {
-  db = require('./database-postgres/index.js')
+  db = require('./database-postgres/index.js');
 } else {
   db = require('./database-mongodb/index.js');
 }
@@ -46,6 +48,23 @@ app.use((req, res, next) => {
   next();
 });
 
+//redis caching middleware
+let redisMiddleware = (req, res, next) => {
+  let key = '__expIress' + req.originalUrl || req.url;
+  client.get(key, function (err, reply) {
+    if (reply) {
+      res.send(JSON.parse(reply));
+    } else {
+      res.sendResponse = res.send;
+      res.send = (body) => {
+        client.set(key, JSON.stringify(body));
+        res.sendResponse(body);
+      };
+      next();
+    }
+  });
+};
+
 //gzip
 app.get('*.js', function (req, res, next) {
   req.url = req.url + '.gz';
@@ -64,11 +83,11 @@ app.get('/itemInformation/:itemId', (req, res) => {
 
   if (itemId.includes('array')) {
     const itemsInArray = itemId.substring(5);
-    const itemIds = itemsInArray.split(',').map(id => parseInt(id));
+    const itemIds = itemsInArray.split(',').map((id) => parseInt(id));
     const invalidId = false;
 
     for (var i = 0; i < itemIds.length; i++) {
-      if (itemIds[i] < 100 || itemIds[i] > (1e7 + 100)) {
+      if (itemIds[i] < 100 || itemIds[i] > 1e7 + 100) {
         res.status(404).send('Invalid itemId');
         invalidId = true;
         break;
@@ -84,7 +103,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
           res.status(404);
         });
     }
-  } else if (itemId < 100 || itemId > (1e7 + 100)) {
+  } else if (itemId < 100 || itemId > 1e7 + 100) {
     // console.log(itemId);
     res.status(404).send('Invalid itemId');
   } else {
@@ -101,7 +120,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
 });
 
 //get full description object for an item
-app.get('/descriptionObject/:itemId', (req, res) => {
+app.get('/descriptionObject/:itemId', redisMiddleware, (req, res) => {
   const itemId = req.params.itemId;
 
   db.getDescriptionObject(itemId)
