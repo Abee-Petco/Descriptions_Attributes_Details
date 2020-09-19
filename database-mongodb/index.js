@@ -93,20 +93,19 @@ const Description = mongoose.model('Description', itemSchema);
 //itemInformation Controllers
 
 const getTitleAndBrand = (itemId) => {
-  return Description.aggregate(
-    [
-      { $match: { itemId: itemId } },
-      {
-        $project: {
-          title: '$description.title',
-          primaryBrand: '$description.primaryBrand',
-          _id: 0,
-        },
+  return Description.aggregate([
+    { $match: { itemId: itemId } },
+    {
+      $project: {
+        title: '$description.title',
+        primaryBrand: '$description.primaryBrand',
+        _id: 0,
       },
-      { $limit: 1 },
-    ],
-    { hint: { itemId: itemId } }
-  ).exec();
+    },
+    { $limit: 1 },
+  ])
+    .hint({ itemId: 1 })
+    .exec();
 };
 
 const getTitlesAndBrands = (itemIds) => {
@@ -120,7 +119,9 @@ const getTitlesAndBrands = (itemIds) => {
       },
     },
     { $limit: itemIds.length },
-  ]).exec();
+  ])
+    .hint({ itemId: 1 })
+    .exec();
 };
 
 // descriptionObject Controllers
