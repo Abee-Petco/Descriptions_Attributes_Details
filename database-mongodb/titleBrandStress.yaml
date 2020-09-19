@@ -1,0 +1,17 @@
+config:
+  target: 'http://localhost:3002'
+  http:
+    pool: 10
+    timeout: 1
+  phases:
+    - duration: 300
+      arrivalRate: 10
+      name: "Sustain Max"
+scenarios:
+  - flow:
+      - loop:
+          - get:
+              url: '/itemInformation/{{$randomNumber(100, 10000100)}}'
+          - get:
+              url: '/itemInformation/array{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}}'
+        count: 100
