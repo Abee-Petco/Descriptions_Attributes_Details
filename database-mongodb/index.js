@@ -37,34 +37,45 @@ db.once('open', () => {
   console.log('connected to mongoDB');
 });
 
-
 //MODELS SECTION
 
-const descriptionSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+const descriptionSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: String,
+    SKU: Number,
+    primaryBrand: String,
+    daysToShip: String,
   },
-  description: String,
-  SKU: Number,
-  primaryBrand: String,
-  daysToShip: String,
-}, {_id: false});
+  { _id: false }
+);
 
-const directionsSchema = new mongoose.Schema({
-  directions: String,
-}, {_id: false});
+const directionsSchema = new mongoose.Schema(
+  {
+    directions: String,
+  },
+  { _id: false }
+);
 
-const attributesSchema = new mongoose.Schema({
-  primaryColor: String,
-  material: String,
-  length: String,
-  width: String,
-}, {_id: false});
+const attributesSchema = new mongoose.Schema(
+  {
+    primaryColor: String,
+    material: String,
+    length: String,
+    width: String,
+  },
+  { _id: false }
+);
 
-const detailsSchema = new mongoose.Schema({
-  additionalDetails: String,
-}, {_id: false});
+const detailsSchema = new mongoose.Schema(
+  {
+    additionalDetails: String,
+  },
+  { _id: false }
+);
 
 const itemSchema = new mongoose.Schema({
   itemId: {
@@ -79,20 +90,23 @@ const itemSchema = new mongoose.Schema({
 
 const Description = mongoose.model('Description', itemSchema);
 
-
 //itemInformation Controllers
 
 const getTitleAndBrand = (itemId) => {
-  return Description.aggregate([
-    { $match: { itemId: itemId } },
-    {
-      $project: {
-        title: '$description.title',
-        primaryBrand: '$description.primaryBrand',
-        _id: 0,
+  return Description.aggregate(
+    [
+      { $match: { itemId: itemId } },
+      {
+        $project: {
+          title: '$description.title',
+          primaryBrand: '$description.primaryBrand',
+          _id: 0,
+        },
       },
-    },
-  ]).exec();
+      { $limit: 1 },
+    ],
+    { hint: { itemId: itemId } }
+  ).exec();
 };
 
 const getTitlesAndBrands = (itemIds) => {
@@ -105,7 +119,8 @@ const getTitlesAndBrands = (itemIds) => {
         _id: 0,
       },
     },
-  ]);
+    { $limit: itemIds.length },
+  ]).exec();
 };
 
 // descriptionObject Controllers
@@ -115,7 +130,7 @@ const getDescriptionObject = (itemId) => {
 };
 
 const postDescriptionObject = (descObj) => {
-  return new Description(descObj).save({validateBeforeSave: false});
+  return new Description(descObj).save({ validateBeforeSave: false });
 };
 
 const putDescriptionObject = (itemId, descObj) => {
