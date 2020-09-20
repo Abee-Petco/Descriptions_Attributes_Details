@@ -15,7 +15,5 @@ scenarios:
   - flow:
       - loop:
           - get:
-              url: '/?={{$randomNumber(100100, 100200)}}'
-          - get:
-              url: '/descriptionObject/{{$randomNumber(100100, 100200)}}'
+              url: '/descriptionObject/{{$randomNumber(100100, 100104)}}'
         count: 100
