@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const redis = require('redis');
 const client = redis.createClient();
+// const App = require('./client/src/index.jsx')
 let db;
 
 if (process.env.node_env === 'postgres') {
@@ -200,4 +201,8 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
     });
 });
 
-module.exports = app;
+app.listen(3002, () => {
+  console.log('server is listening on port 3002');
+})
+
+// module.exports = app;
