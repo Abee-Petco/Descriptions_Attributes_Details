@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const redis = require('redis');
 const client = redis.createClient();
-// const App = require('./client/src/index.jsx')
+const DescriptionService = require('./client/src/index.jsx');
 let db;
 
 if (process.env.node_env === 'postgres') {
