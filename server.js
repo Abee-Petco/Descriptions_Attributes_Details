@@ -4,7 +4,10 @@ const express = require('express');
 const path = require('path');
 const redis = require('redis');
 const client = redis.createClient();
-const DescriptionService = require('./client/src/index.jsx');
+const App = require('./client/src/index.jsx');
+const ReactDOMServer = require('react-dom/server');
+const React = require('react');
+const fs = require('fs');
 let db;
 
 if (process.env.node_env === 'postgres') {
