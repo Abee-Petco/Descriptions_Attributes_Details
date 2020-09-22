@@ -15,7 +15,7 @@ if (process.env.node_env === 'postgres') {
 const app = express();
 
 app.use(express.json());
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
@@ -57,7 +57,7 @@ let redisMiddleware = (req, res, next) => {
     } else {
       res.sendResponse = res.send;
       res.send = (body) => {
-        client.set(key, JSON.stringify(body));
+        typeof body === 'string' ? client.set(key, body) : client.set(key, JSON.stringify(body));
         res.sendResponse(body);
       };
       next();
@@ -178,6 +178,7 @@ app.put('/descriptionObject/:itemId', (req, res) => {
     .then((data) => {
       // console.log('successful description update', data);
       !data ? res.sendStatus(201) : res.sendStatus(200);
+      client.flushdb()
     })
     .catch((err) => {
       res.sendStatus(500);
@@ -191,6 +192,7 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
     .then((data) => {
       // console.log('successfully deleted description', data);
       !data ? res.sendStatus(404) : res.sendStatus(200);
+      client.flushdb()
     })
     .catch((err) => {
       // console.log(err);
