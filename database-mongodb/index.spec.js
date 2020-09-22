@@ -21,7 +21,7 @@ describe('Mongoose', () => {
   it('should have methods for posting item docs', async (done) => {
     expect(db.postDescriptionObject).toBeDefined();
 
-    db.postDescriptionObject(50, postData)
+    db.postDescriptionObject(postData)
       .then((data) => {
         expect(data).toBeDefined();
         return db.getDescriptionObject(50);
@@ -34,11 +34,7 @@ describe('Mongoose', () => {
   it('should have methods for putting item docs', async (done) => {
     expect(db.putDescriptionObject).toBeDefined();
 
-    db.postDescriptionObject(50, postData)
-      .then((results) => {
-        expect(results).toBeDefined();
-        return db.putDescriptionObject(50, putData);
-      })
+    db.putDescriptionObject(50, putData)
       .then((doc) => {
         return db.getDescriptionObject(50);
       })
@@ -51,14 +47,7 @@ describe('Mongoose', () => {
   it('should have methods for deleting item docs', async (done) => {
     expect(db.deleteDescriptionObject).toBeDefined();
 
-    db.postDescriptionObject(50, postData)
-      .then((results) => {
-        return db.getDescriptionObject('50');
-      })
-      .then((doc) => {
-        expect(doc[0]).toBeDefined();
-        return db.deleteDescriptionObject('50');
-      })
+    db.deleteDescriptionObject('50')
       .then((deleted) => {
         expect(deleted.deletedCount).toEqual(1);
         return db.getDescriptionObject('50');
