@@ -49,7 +49,7 @@ app.use((req, res, next) => {
 });
 
 //redis caching middleware
-let redisMiddleware = (req, res, next) => {
+const redisMiddleware = (req, res, next) => {
   let key = '__expIress' + req.originalUrl || req.url;
   client.get(key, function (err, reply) {
     if (reply) {
