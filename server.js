@@ -87,8 +87,10 @@ app.get('/', (req, res) => {
       console.error('Something went wrong:', err);
       return res.status(500).send('Oops, better luck next time!');
     }
+    let rendered = data.replace('<div id="description"></div>', `<div id="description">${serviceApp}</div>`)
+    console.log(rendered)
 
-    return res.send(data.replace('<div id="description"></div>', `<div id="description">${serviceApp}</div>`))
+    return res.send(rendered)
   })
 })
 
