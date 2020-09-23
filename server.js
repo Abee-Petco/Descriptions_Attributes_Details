@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const redis = require('redis');
 const client = redis.createClient();
-const App = require('./client/src/index.jsx');
+import DescriptionService from './client/src/index.jsx';
 const ReactDOMServer = require('react-dom/server');
 const React = require('react');
 const fs = require('fs');
@@ -79,7 +79,20 @@ app.get('*.js', function (req, res, next) {
   next();
 });
 
-app.use(express.static(path.join(__dirname, 'client/public')));
+app.get('/', (req, res) => {
+  const serviceApp = ReactDOMServer.renderToString(<DescriptionService/>);
+  const indexFile = path.resolve('./server-build/index.html');
+  fs.readFile(indexFile, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Something went wrong:', err);
+      return res.status(500).send('Oops, better luck next time!');
+    }
+
+    return res.send(data.replace('<div id="description"></div>', `<div id="description">${serviceApp}</div>`))
+  })
+})
+
+app.use(express.static(path.join(__dirname, 'server-build')));
 
 //get title and brand name for an item
 app.get('/itemInformation/:itemId', (req, res) => {
