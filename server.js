@@ -9,6 +9,7 @@ const ReactDOMServer = require('react-dom/server');
 const React = require('react');
 const fs = require('fs');
 let db;
+const axios = require('axios');
 
 if (process.env.node_env === 'postgres') {
   db = require('./database-postgres/index.js');
@@ -80,19 +81,37 @@ app.get('*.js', function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  const serviceApp = ReactDOMServer.renderToString(<DescriptionService/>);
-  const indexFile = path.resolve('./client/public/index.html');
-  fs.readFile(indexFile, 'utf-8', (err, data) => {
-    if (err) {
-      console.error('Something went wrong:', err);
-      return res.status(500).send('Oops, better luck next time!');
-    }
+  let itemId = req.originalUrl.slice(3);
+  axios.get(`http://localhost:3002/descriptionObject/${itemId}`).then((itemInfo) => {
+    console.log(itemInfo.data);
+    const serviceApp = ReactDOMServer.renderToString(
+      <DescriptionService initData={itemInfo.data} />
+    );
+    const indexFile = path.resolve('./client/public/index.html');
+    return res.send(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>PetCo</title>
+          <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+          <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+          <!-- <link href='style.css' rel='stylesheet' type='text/css'> -->
+        </head>
+        <body>
+          <div id="description">${serviceApp}</div>
+          <script src="bundle.js"></script>
+          <script>window.__initData__ = ${JSON.stringify(itemInfo.data)}</script>
+        </body>
+      </html>
+    `);
+  });
+});
 
-    return res.send(data.replace('<div id="description"></div>', `<div id="description">${serviceApp}</div>`))
-  })
-})
-
-app.use(express.static('/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_/client/public'));
+app.use(
+  express.static(
+    '/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_/client/public'
+  )
+);
 
 //get title and brand name for an item
 app.get('/itemInformation/:itemId', (req, res) => {
@@ -195,7 +214,7 @@ app.put('/descriptionObject/:itemId', (req, res) => {
     .then((data) => {
       // console.log('successful description update', data);
       !data ? res.sendStatus(201) : res.sendStatus(200);
-      client.flushdb()
+      client.flushdb();
     })
     .catch((err) => {
       res.sendStatus(500);
@@ -209,7 +228,7 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
     .then((data) => {
       // console.log('successfully deleted description', data);
       !data ? res.sendStatus(404) : res.sendStatus(200);
-      client.flushdb()
+      client.flushdb();
     })
     .catch((err) => {
       // console.log(err);
@@ -219,6 +238,6 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
 
 app.listen(3002, () => {
   console.log('server is listening on port 3002');
-})
+});
 
 // module.exports = app;
