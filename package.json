@@ -24,7 +24,7 @@
     "stress": "node spawn.js",
     "artillery": "artillery run artillery.yaml",
     "dev:build": "NODE_ENV=development webpack --config webpack.server.js --mode=development -w",
-    "dev:start": "nodemon ./server-build/server.js",
+    "dev:start": "nodemon ./server-build/server-bundle.js",
     "dev": "npm-run-all --parallel build dev:*"
   },
   "standard": {
@@ -51,11 +51,11 @@
   },
   "homepage": "https://github.com/PetToyCo/description_directions_attributes_#readme",
   "devDependencies": {
-    "@babel/core": "^7.10.3",
+    "@babel/core": "^7.10.4",
     "@babel/plugin-transform-runtime": "^7.11.0",
-    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-env": "^7.10.4",
     "@babel/preset-es2015": "^7.0.0-beta.53",
-    "@babel/preset-react": "^7.10.1",
+    "@babel/preset-react": "^7.10.4",
     "@shelf/jest-mongodb": "^1.1.5",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
@@ -80,9 +80,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "supertest": "^4.0.2",
-    "webpack": "^4.43.0",
+    "webpack": "^4.42.0",
     "webpack-cli": "^3.3.12",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
     "artillery": "^1.6.1",

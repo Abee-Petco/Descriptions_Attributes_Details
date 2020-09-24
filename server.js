@@ -81,20 +81,18 @@ app.get('*.js', function (req, res, next) {
 
 app.get('/', (req, res) => {
   const serviceApp = ReactDOMServer.renderToString(<DescriptionService/>);
-  const indexFile = path.resolve('./server-build/index.html');
-  fs.readFile(indexFile, 'utf8', (err, data) => {
+  const indexFile = path.resolve('./client/public/index.html');
+  fs.readFile(indexFile, 'utf-8', (err, data) => {
     if (err) {
       console.error('Something went wrong:', err);
       return res.status(500).send('Oops, better luck next time!');
     }
-    let rendered = data.replace('<div id="description"></div>', `<div id="description">${serviceApp}</div>`)
-    console.log(rendered)
 
-    return res.send(rendered)
+    return res.send(data.replace('<div id="description"></div>', `<div id="description">${serviceApp}</div>`))
   })
 })
 
-app.use(express.static(path.join(__dirname, 'server-build')));
+app.use(express.static('/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_/client/public'));
 
 //get title and brand name for an item
 app.get('/itemInformation/:itemId', (req, res) => {
