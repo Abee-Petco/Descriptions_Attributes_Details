@@ -40,7 +40,8 @@ class DescriptionService extends React.Component {
 
   
   //Proxy componentDidMount
-  componentDidMount() {
+  componenDidMount() {
+    console.log('CDM firing!')
     const item = window.location.search.slice(2);
 
     //local address
