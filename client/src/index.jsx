@@ -9,11 +9,21 @@ import { button } from './style.js';
 
 class DescriptionService extends React.Component {
   constructor(props) {
+    
     super(props);
+
+    let initData;
+
+    if (props.initData) {
+      initData = props.initData;
+    } else {
+      initData = window.__initData__;
+      delete window.__initData__;
+    }
 
     this.state = {
       current: '',
-      data: {}
+      data: initData,
     }
 
     this.changeModule = this.changeModule.bind(this);
