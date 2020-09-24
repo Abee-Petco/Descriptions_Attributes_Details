@@ -11,7 +11,7 @@ class DescriptionService extends React.Component {
   constructor(props) {
     
     super(props);
-
+    console.log('constructor firing!', props)
     let initData;
 
     if (props.initData) {
@@ -50,7 +50,7 @@ class DescriptionService extends React.Component {
 
   
   //Proxy componentDidMount
-  componenDidMount() {
+  componentDidMount() {
     console.log('CDM firing!')
     const item = window.location.search.slice(2);
 
