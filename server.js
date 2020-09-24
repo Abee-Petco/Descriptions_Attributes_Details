@@ -108,11 +108,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use(
-  express.static(
-    '/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_/client/public'
-  )
-);
+app.use(express.static('client/public'));
 
 //get title and brand name for an item
 app.get('/itemInformation/:itemId', (req, res) => {
@@ -170,28 +166,6 @@ app.get('/descriptionObject/:itemId', redisMiddleware, (req, res) => {
       // console.log('error in getDescriptionObject: ', err);
     });
 });
-
-//post description object for a new item
-// app.post('/descriptionObject', (req, res) => {
-//   const descObj = req.body;
-
-//   db.getDescriptionObject(descObj.itemId)
-//     .then((result) => {
-//       if (result[0]) {
-//         res.sendStatus(409);
-//       } else {
-//         return db.postDescriptionObject(descObj.itemId, descObj)
-//       }
-//     })
-//     .then((data) => {
-//       // console.log('successful post of data:', !!data);
-//       data ? res.sendStatus(201) : null;
-//     })
-//     .catch((err) => {
-//       // console.log(err);
-//       res.sendStatus(500);
-//     });
-// });
 
 app.post('/descriptionObject', (req, res) => {
   const descObj = req.body;
