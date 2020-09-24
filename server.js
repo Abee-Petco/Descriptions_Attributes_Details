@@ -91,6 +91,7 @@ app.get('/', (req, res) => {
       <html>
         <head>
           <title>PetCo</title>
+          <script>window.__initData__ = ${JSON.stringify(itemInfo.data)}</script>
           <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
           <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
           <!-- <link href='style.css' rel='stylesheet' type='text/css'> -->
@@ -98,7 +99,6 @@ app.get('/', (req, res) => {
         <body>
           <div id="description">${serviceApp}</div>
           <script src="bundle.js"></script>
-          <script>window.__initData__ = ${JSON.stringify(itemInfo.data)}</script>
         </body>
       </html>
     `);

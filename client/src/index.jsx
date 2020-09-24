@@ -31,28 +31,16 @@ class DescriptionService extends React.Component {
     this.onMouseOut = this.onMouseOut.bind(this);
   }
 
-  //Development componentDidMount. Hardcoded to item 100
-
-  // componentDidMount() {
-  //   axios.get('/descriptionObject/2010')
-  //     .then(data => {
-  //       console.log('success getting data in componentDidMount: ', data);
-  //       this.setState({
-  //         current: 'description',
-  //         data: data.data
-  //       });
-  //       console.log('state: ', this.state);
-  //     })
-  //     .catch(err => {
-  //       console.log('error getting descObj in componentDidMount: ', err);
-  //     });
-  // }
-
   
   //Proxy componentDidMount
   componentDidMount() {
+
     console.log('CDM firing!')
     const item = window.location.search.slice(2);
+
+    this.setState({
+      current: 'descriptionB',
+    });
 
     //local address
     const address = 'http://localhost'
@@ -60,21 +48,21 @@ class DescriptionService extends React.Component {
     //deployed address
     // const address = 'http://52.14.208.55';
 
-    axios.get(`${address}:3002/descriptionObject/${item}`)
-      .then(data => {
-        console.log('success getting data in componentDidMount');
-        var bullets = data.data.description.description.split('. ');
-        data.data.description.description = bullets;
+    // axios.get(`${address}:3002/descriptionObject/${item}`)
+    //   .then(data => {
+    //     console.log('success getting data in componentDidMount');
+    //     var bullets = data.data.description.description.split('. ');
+    //     data.data.description.description = bullets;
 
-        this.setState({
-          current: 'descriptionB',
-          data: data.data
-        });
-        console.log('state: ', this.state);
-      })
-      .catch(err => {
-        console.log('error getting descObj in componentDidMount: ', err);
-      });
+        // this.setState({
+        //   current: 'descriptionB',
+        //   data: data.data
+        // });
+    //     console.log('state: ', this.state);
+    //   })
+    //   .catch(err => {
+    //     console.log('error getting descObj in componentDidMount: ', err);
+    //   });
   }
 
   changeModule(e) {
