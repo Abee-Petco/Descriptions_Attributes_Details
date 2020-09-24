@@ -83,11 +83,9 @@ app.get('*.js', function (req, res, next) {
 app.get('/', (req, res) => {
   let itemId = req.originalUrl.slice(3);
   axios.get(`http://localhost:3002/descriptionObject/${itemId}`).then((itemInfo) => {
-    console.log(itemInfo.data);
     const serviceApp = ReactDOMServer.renderToString(
       <DescriptionService initData={itemInfo.data} />
     );
-    const indexFile = path.resolve('./client/public/index.html');
     return res.send(`
       <!DOCTYPE html>
       <html>
