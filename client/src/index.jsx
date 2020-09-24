@@ -11,8 +11,8 @@ class DescriptionService extends React.Component {
   constructor(props) {
     
     super(props);
-    console.log('constructor firing!', props)
     let initData;
+    let initCurrent = props.initCurrent;
 
     if (props.initData) {
       initData = props.initData;
@@ -22,7 +22,7 @@ class DescriptionService extends React.Component {
     }
 
     this.state = {
-      current: '',
+      current: initCurrent,
       data: initData,
     }
 
@@ -33,37 +33,32 @@ class DescriptionService extends React.Component {
 
   
   //Proxy componentDidMount
-  componentDidMount() {
+  // componentDidMount() {
 
-    console.log('CDM firing!')
-    const item = window.location.search.slice(2);
+  //   const item = window.location.search.slice(2);
 
-    this.setState({
-      current: 'descriptionB',
-    });
+  //   // local address
+  //   const address = 'http://localhost'
 
-    //local address
-    const address = 'http://localhost'
+  //   // deployed address
+  //   // const address = 'http://52.14.208.55';
 
-    //deployed address
-    // const address = 'http://52.14.208.55';
+  //   axios.get(`${address}:3002/descriptionObject/${item}`)
+  //     .then(data => {
+  //       console.log('success getting data in componentDidMount');
+  //       var bullets = data.data.description.description.split('. ');
+  //       data.data.description.description = bullets;
 
-    // axios.get(`${address}:3002/descriptionObject/${item}`)
-    //   .then(data => {
-    //     console.log('success getting data in componentDidMount');
-    //     var bullets = data.data.description.description.split('. ');
-    //     data.data.description.description = bullets;
-
-        // this.setState({
-        //   current: 'descriptionB',
-        //   data: data.data
-        // });
-    //     console.log('state: ', this.state);
-    //   })
-    //   .catch(err => {
-    //     console.log('error getting descObj in componentDidMount: ', err);
-    //   });
-  }
+  //       this.setState({
+  //         current: 'descriptionB',
+  //         data: data.data
+  //       });
+  //       console.log('state: ', this.state);
+  //     })
+  //     .catch(err => {
+  //       console.log('error getting descObj in componentDidMount: ', err);
+  //     });
+  // }
 
   changeModule(e) {
     var newState = e.target.id;

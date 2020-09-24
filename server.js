@@ -80,9 +80,12 @@ app.get('*.js', function (req, res, next) {
   next();
 });
 
+//SSR
 app.get('/', (req, res) => {
   let itemId = req.originalUrl.slice(3);
   axios.get(`http://localhost:3002/descriptionObject/${itemId}`).then((itemInfo) => {
+    var bullets = itemInfo.data.description.description.split('. ');
+    itemInfo.data.description.description = bullets;
     const serviceApp = ReactDOMServer.renderToString(
       <DescriptionService initData={itemInfo.data} />
     );
