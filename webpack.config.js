@@ -1,7 +1,7 @@
 var CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: __dirname + '/client/src/render.jsx',
   module: {
     rules: [
