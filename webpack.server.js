@@ -2,6 +2,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 const ReactConfig = {
+  mode: 'production',
   entry: './server.js',
 
   target: 'node',
