@@ -58,7 +58,7 @@ const redisMiddleware = (req, res, next) => {
   let key = '__expIress' + req.originalUrl || req.url;
   client.get(key, function (err, reply) {
     if (reply) {
-      res.send(JSON.parse(reply));
+      res.send(reply);
     } else {
       res.sendResponse = res.send;
       res.send = (body) => {
@@ -81,7 +81,7 @@ app.get('*.js', function (req, res, next) {
 });
 
 //SSR
-app.get('/', (req, res) => {
+app.get('/', redisMiddleware, (req, res) => {
   let itemId = req.originalUrl.slice(3);
   axios.get(`http://localhost:3002/descriptionObject/${itemId}`).then((itemInfo) => {
     var bullets = itemInfo.data.description.description.split('. ');
