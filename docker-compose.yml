@@ -1,4 +1,4 @@
-version '3.3'
+version: "3.3"
 
 services:
 
@@ -9,5 +9,15 @@ services:
     ports:
       - "80:3002"
     links:
-      - "db"
-    command: bash -c "wait-for-it.sh mongo:27017 && npm install && npm run dev:start"
+      - "mongo"
+    command: bash -c "wait-for-it.sh --timeout=0 mongo:27017 && npm install && npm run dev:start"
+    volumes:
+      - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
+      - ./:/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
+
+  mongo:
+    restart: always
+    container_name: mongo
+    image: mongo:3.5.9
+    ports:
+      - "27017:27017"
