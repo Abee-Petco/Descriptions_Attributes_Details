@@ -107,7 +107,6 @@ app.get('/', redisMiddleware, (req, res) => {
       </html>
     `);
   }).catch(err => {
-    console.log(res)
     res.statusCode !== 404 ? res.sendStatus(500) : null
   })
 });
