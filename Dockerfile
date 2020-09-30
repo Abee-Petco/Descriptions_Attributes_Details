@@ -1,17 +1,9 @@
-FROM node:10.15.3
+FROM node:14
 
-ADD ./package.json /tmp/
+WORKDIR /Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
 
-RUN cd /tmp/ && npm install
+COPY package.json ./
 
-RUN npm install -g pm2
+RUN npm install
 
-ADD ./ /code/
-
-RUN cp -r /tmp/node_modules/ /code/
-
-EXPOSE 3002
-
-WORKDIR /code
-
-ENTRYPOINT [ "pm2-docker", "start.js"]
+COPY ./ ./
