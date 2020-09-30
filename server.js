@@ -83,18 +83,19 @@ app.get('*.js', function (req, res, next) {
 //SSR
 app.get('/', redisMiddleware, (req, res) => {
   let itemId = req.originalUrl.slice(3);
-  axios.get(`http://localhost:3002/descriptionObject/${itemId}`).then((itemInfo) => {
-    var bullets = itemInfo.data.description.description.split('. ');
-    itemInfo.data.description.description = bullets;
+  db.getDescriptionObject(itemId).then((itemInfo) => {
+    !itemInfo[0] ? res.sendStatus(404) : itemInfo
+    var bullets = itemInfo[0].description.description.split('. ');
+    itemInfo[0].description.description = bullets;
     const serviceApp = ReactDOMServer.renderToString(
-      <DescriptionService initData={itemInfo.data} />
+      <DescriptionService initData={itemInfo[0]} />
     );
     return res.send(`
       <!DOCTYPE html>
       <html>
         <head>
           <title>PetCo</title>
-          <script>window.__initData__ = ${JSON.stringify(itemInfo.data)}</script>
+          <script>window.__initData__ = ${JSON.stringify(itemInfo[0])}</script>
           <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
           <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
           <!-- <link href='style.css' rel='stylesheet' type='text/css'> -->
@@ -105,7 +106,10 @@ app.get('/', redisMiddleware, (req, res) => {
         </body>
       </html>
     `);
-  });
+  }).catch(err => {
+    console.log(res)
+    res.statusCode !== 404 ? res.sendStatus(500) : null
+  })
 });
 
 app.use(express.static('client/public'));
