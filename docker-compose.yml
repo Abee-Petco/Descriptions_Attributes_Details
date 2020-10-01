@@ -10,7 +10,7 @@ services:
       - "80:3002"
     links:
       - "mongo"
-    command: bash -c "wait-for-it.sh --timeout=0 mongo:27017 && npm install && npm run dev:start"
+    command: bash -c "wait-for-it.sh --timeout=0 mongo:27017 && wait-for-it.sh redis:6379 && npm install && npm run dev:start"
     volumes:
       - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
       - ./:/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
@@ -21,3 +21,10 @@ services:
     image: mongo:3.5.9
     ports:
       - "27017:27017"
+
+  redis:
+    restart: always
+    container_name: redis
+    image: 'bitnami/redis:latest'
+    ports:
+      - "6379:6379"
