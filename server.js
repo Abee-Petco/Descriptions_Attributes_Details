@@ -3,19 +3,13 @@ const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
 const redis = require('redis');
-const client = redis.createClient({host: "redis"}); 
 import DescriptionService from './client/src/index.jsx';
 const ReactDOMServer = require('react-dom/server');
 const React = require('react'); 
 const fs = require('fs'); 
-let db;
-const axios = require('axios'); 
-
-if (process.env.node_env === 'postgres') {
-  db = require('./database-postgres/index.js');
-} else {
-  db = require('./database-mongodb/index.js');
-} 
+const db = require('./database-mongodb/index.js');
+const axios = require('axios');
+let client 
 
 const app = express();
 
@@ -54,6 +48,12 @@ app.use((req, res, next) => {
 });
 
 //redis caching middleware
+if (process.env.node_env === 'production') {
+  client = redis.createClient({host: "redis"});
+} else {
+  client = redis.createClient(); 
+}
+
 const redisMiddleware = (req, res, next) => {
   let key = '__expIress' + req.originalUrl || req.url;
   client.get(key, function (err, reply) {
