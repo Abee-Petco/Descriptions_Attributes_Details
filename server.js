@@ -114,7 +114,7 @@ app.get('/', redisMiddleware, (req, res) => {
 });
 
 //Proxy rendering SSR
-app.get('/component', (req, res) => {
+app.get('/component', redisMiddleware, (req, res) => {
   let { itemId } = req.query;
   console.log('FROM PROXY', itemId);
   db.getDescriptionObject(itemId)
