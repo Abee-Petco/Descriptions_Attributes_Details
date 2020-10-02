@@ -7,7 +7,7 @@ services:
     build: ./
     working_dir: /Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
     ports:
-      - "3002:3002"
+      - "80:3002"
     links:
       - "mongo"
       - "redis"
