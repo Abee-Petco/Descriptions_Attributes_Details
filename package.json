@@ -24,7 +24,9 @@
     "artillery": "artillery run artillery.yaml",
     "dev:build": "NODE_ENV=production webpack --config webpack.server.js --mode=production -w",
     "dev:start": "nodemon ./server-build/server-bundle.js",
-    "dev": "npm-run-all --parallel dev:*"
+    "dev": "npm-run-all --parallel dev:*",
+    "pro": "node_env=\"production\" nodemon ./server-build/server-bundle.js",
+    "containers": "docker-compose up --build"
   },
   "standard": {
     "env": [
