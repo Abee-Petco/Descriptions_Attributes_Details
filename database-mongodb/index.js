@@ -17,11 +17,16 @@ if (process.env.node_env === 'mockgoose') {
     .catch((err) => {
       console.log('Mockgoose connection failed: ', err);
     });
-} else {
+} else if(process.env.node_env === 'production') {
   mongoose.connect('mongodb://mongo:27017/petco_descriptions', { 
     useUnifiedTopology: true,
     useNewUrlParser: true,
   }); 
+} else {
+  mongoose.connect('mongodb://localhost/petco_descriptions', {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  });
 }
 
 //production:
