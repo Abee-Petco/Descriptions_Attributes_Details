@@ -18,10 +18,10 @@ if (process.env.node_env === 'mockgoose') {
       console.log('Mockgoose connection failed: ', err);
     });
 } else {
-  mongoose.connect('mongodb://localhost/petco_descriptions', {
+  mongoose.connect('mongodb://mongo:27017/petco_descriptions', { 
     useUnifiedTopology: true,
     useNewUrlParser: true,
-  });
+  }); 
 }
 
 //production:

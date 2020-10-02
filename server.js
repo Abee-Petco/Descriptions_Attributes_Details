@@ -3,11 +3,11 @@ const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
 const redis = require('redis');
-const client = redis.createClient(); 
+const client = redis.createClient({host: "redis"}); 
 import DescriptionService from './client/src/index.jsx';
 const ReactDOMServer = require('react-dom/server');
 const React = require('react'); 
-const fs = require('fs');
+const fs = require('fs'); 
 let db;
 const axios = require('axios'); 
 
