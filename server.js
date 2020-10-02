@@ -3,19 +3,19 @@ const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient(); 
 import DescriptionService from './client/src/index.jsx';
 const ReactDOMServer = require('react-dom/server');
-const React = require('react');
+const React = require('react'); 
 const fs = require('fs');
 let db;
-const axios = require('axios');
+const axios = require('axios'); 
 
 if (process.env.node_env === 'postgres') {
   db = require('./database-postgres/index.js');
 } else {
   db = require('./database-mongodb/index.js');
-}
+} 
 
 const app = express();
 
