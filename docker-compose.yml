@@ -11,7 +11,7 @@ services:
     links:
       - "mongo"
       - "redis"
-    command: bash -c "wait-for-it.sh mongo:27017 && wait-for-it.sh redis:6379 && npm install && npm run dev:start"
+    command: bash -c "wait-for-it.sh mongo:27017 && wait-for-it.sh redis:6379 && npm install && npm run dev"
     volumes:
       - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
       - ./:/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
