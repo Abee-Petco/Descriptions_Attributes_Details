@@ -5,11 +5,11 @@ const path = require('path');
 const redis = require('redis');
 import DescriptionService from './client/src/index.jsx';
 const ReactDOMServer = require('react-dom/server');
-const React = require('react'); 
-const fs = require('fs'); 
+const React = require('react');
+const fs = require('fs');
 const db = require('./database-mongodb/index.js');
 const axios = require('axios');
-let client 
+let client;
 
 const app = express();
 
@@ -49,9 +49,9 @@ app.use((req, res, next) => {
 
 //redis caching middleware
 if (process.env.node_env === 'production') {
-  client = redis.createClient({host: "redis"});
+  client = redis.createClient({ host: 'redis' });
 } else {
-  client = redis.createClient(); 
+  client = redis.createClient();
 }
 
 const redisMiddleware = (req, res, next) => {
@@ -83,14 +83,15 @@ app.get('*.js', function (req, res, next) {
 //SSR
 app.get('/', redisMiddleware, (req, res) => {
   let itemId = req.originalUrl.slice(3);
-  db.getDescriptionObject(itemId).then((itemInfo) => {
-    !itemInfo[0] ? res.sendStatus(404) : itemInfo
-    var bullets = itemInfo[0].description.description.split('. ');
-    itemInfo[0].description.description = bullets;
-    const serviceApp = ReactDOMServer.renderToString(
-      <DescriptionService initData={itemInfo[0]} />
-    );
-    return res.send(`
+  db.getDescriptionObject(itemId)
+    .then((itemInfo) => {
+      !itemInfo[0] ? res.sendStatus(404) : itemInfo;
+      var bullets = itemInfo[0].description.description.split('. ');
+      itemInfo[0].description.description = bullets;
+      const serviceApp = ReactDOMServer.renderToString(
+        <DescriptionService initData={itemInfo[0]} />
+      );
+      return res.send(`
       <!DOCTYPE html>
       <html>
         <head>
@@ -106,9 +107,29 @@ app.get('/', redisMiddleware, (req, res) => {
         </body>
       </html>
     `);
-  }).catch(err => {
-    res.statusCode !== 404 ? res.sendStatus(500) : null
-  })
+    })
+    .catch((err) => {
+      res.statusCode !== 404 ? res.sendStatus(500) : null;
+    });
+});
+
+//Proxy rendering SSR
+app.get('/component', (req, res) => {
+  let { itemId } = req.query;
+  console.log('FROM PROXY', itemId);
+  db.getDescriptionObject(itemId)
+    .then((itemInfo) => {
+      !itemInfo[0] ? res.sendStatus(404) : itemInfo;
+      var bullets = itemInfo[0].description.description.split('. ');
+      itemInfo[0].description.description = bullets;
+      const serviceApp = ReactDOMServer.renderToString(
+        <DescriptionService initData={itemInfo[0]} />
+      );
+      res.send({ windowData: JSON.stringify(itemInfo[0]), serviceApp: serviceApp });
+    })
+    .catch((err) => {
+      res.statusCode !== 404 ? res.sendStatus(500) : null;
+    });
 });
 
 app.use(express.static('client/public'));
