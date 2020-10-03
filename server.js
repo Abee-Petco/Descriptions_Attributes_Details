@@ -24,7 +24,7 @@ app.use((req, res, next) => {
   // const address3 = 'http://localhost';
 
   //deployed address
-  var address = 'ec2-3-132-55-48.us-east-2.compute.amazonaws.com'; //me
+  var address = 'http://ec2-3-132-55-48.us-east-2.compute.amazonaws.com'; //me
   // var address2 = 'http://54.183.137.155'; // nick
   // var address3 = 'http://18.224.229.28'; // kate
 
@@ -40,8 +40,8 @@ app.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', `${address}:3000`); //my proxy
     } else if (req.headers.referer.includes(`${address2}:3000`)) {
       res.header('Access-Control-Allow-Origin', `${address2}:3000`); //nick's proxy
-    } else if (req.headers.referer.includes(`${address3}:3000`)) {
-      res.header('Access-Control-Allow-Origin', `${address3}:3000`); //kate's proxy
+    } else if (req.headers.referer.includes(`${address3}`)) {
+      res.header('Access-Control-Allow-Origin', `${address3}`); //kate's proxy
     }
   }
   next();
