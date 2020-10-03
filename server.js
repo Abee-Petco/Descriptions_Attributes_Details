@@ -26,7 +26,7 @@ app.use((req, res, next) => {
   //deployed address
   var address = 'http://ec2-3-132-55-48.us-east-2.compute.amazonaws.com'; //me
   // var address2 = 'http://54.183.137.155'; // nick
-  // var address3 = 'http://18.224.229.28'; // kate
+  var address3 = 'http://ec2-3-132-55-48.us-east-2.compute.amazonaws.com'; // kate
 
   const { referer } = req.headers;
   if (referer) {
