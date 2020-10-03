@@ -19,12 +19,12 @@ app.use(express.json());
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
   //local address
-  const address = 'http://localhost';
-  const address2 = 'http://localhost';
-  const address3 = 'http://localhost';
+  // const address = 'http://localhost';
+  // const address2 = 'http://localhost';
+  // const address3 = 'http://localhost';
 
   //deployed address
-  // var address = 'http://52.14.208.55'; //me
+  var address = 'ec2-3-132-55-48.us-east-2.compute.amazonaws.com'; //me
   // var address2 = 'http://54.183.137.155'; // nick
   // var address3 = 'http://18.224.229.28'; // kate
 
