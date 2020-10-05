@@ -1,0 +1,39 @@
+config:
+  target: 'http://ec2-3-19-16-18.us-east-2.compute.amazonaws.com'
+  http:
+    pool: 10
+  phases:
+    - duration: 120
+      arrivalRate: 1
+      name: "Sustain Max"
+scenarios:
+  - flow:
+      - loop:
+          - post:
+              url: '/descriptionObject'
+              json:
+                itemId: '{{$randomNumber(10000100, 20000100)}}'
+                description:
+                  title: "Dead Astronauts"
+                  description: "A creator who no longer remembered the creation: Wasn’t that one definition of a god?"
+                  SKU: "5985634"
+                  primaryBrand: "Gucci"
+                  daysToShip: "Ships In 4 Business Days"
+                directions:
+                  directions: "Aliquid ut et voluptatem. Recusandae quis illum illum. Quasi qui aut harum. Error earum ab numquam. Dolores blanditiis harum consequuntur. Distinctio voluptatem qui veniam omnis vero autem recusandae nam excepturi."
+                attributes:
+                  primaryColor: "black"
+                  material: "moon rock"
+                  length: "7"
+                  width: "8"
+                details:
+                  additionalDetails: "Fuga dolorum non. Exercitationem repudiandae qui voluptate. Fugit fugiat earum."
+          - get:
+              url: '/?={{$randomNumber(100, 10000100)}}'
+          - get:
+              url: '/descriptionObject/{{$randomNumber(100, 10000100)}}'
+          - get:
+              url: '/itemInformation/{{$randomNumber(100, 10000100)}}'
+          - get:
+              url: '/itemInformation/array{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}},{{$randomNumber(100, 10000100)}}'
+        count: 10

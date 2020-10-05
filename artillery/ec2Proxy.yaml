@@ -1,0 +1,18 @@
+config:
+  target: 'http://ec2-3-132-55-48.us-east-2.compute.amazonaws.com'
+  http:
+    pool: 10
+  phases:
+    - duration: 120
+      arrivalRate: 1
+      rampTo: 10
+      name: "Warm Up"
+    - duration: 120
+      arrivalRate: 10
+      name: "Sustain Max"
+scenarios:
+  - flow:
+      - loop:
+          - get:
+              url: '/product/?itemID={{$randomNumber(100, 10000100)}}'
+        count: 100
