@@ -117,7 +117,6 @@ app.get('/', redisMiddleware, (req, res) => {
 //Proxy rendering SSR
 app.get('/component', redisMiddleware, (req, res) => {
   let { itemId } = req.query;
-  console.log('FROM PROXY', itemId);
   db.getDescriptionObject(itemId)
     .then((itemInfo) => {
       !itemInfo[0] ? res.sendStatus(404) : itemInfo;
@@ -162,17 +161,14 @@ app.get('/itemInformation/:itemId', (req, res) => {
         });
     }
   } else if (itemId < 100 || itemId > 1e7 + 100) {
-    // console.log(itemId);
     res.status(404).send('Invalid itemId');
   } else {
     db.getTitleAndBrand(parseInt(itemId))
       .then((data) => {
-        // console.log('success getting title and brand', data);
         res.send(data[0]);
       })
       .catch((err) => {
         res.status(500).send(err);
-        // console.log('error in getTitleAndBrand: ', err);
       });
   }
 });
@@ -183,12 +179,10 @@ app.get('/descriptionObject/:itemId', redisMiddleware, (req, res) => {
 
   db.getDescriptionObject(itemId)
     .then((data) => {
-      // console.log('success getting descriptionObj', data);
       !data[0] ? res.sendStatus(404) : res.send(data[0]);
     })
     .catch((err) => {
       res.status(500).send(err);
-      // console.log('error in getDescriptionObject: ', err);
     });
 });
 
@@ -197,7 +191,6 @@ app.post('/descriptionObject', (req, res) => {
 
   db.postDescriptionObject(descObj)
     .then((data) => {
-      // console.log('successful post of data:', data);
       data ? res.sendStatus(201) : null;
     })
     .catch((err) => {
@@ -212,7 +205,6 @@ app.put('/descriptionObject/:itemId', (req, res) => {
 
   db.putDescriptionObject(itemId, descObj)
     .then((data) => {
-      // console.log('successful description update', data);
       !data ? res.sendStatus(201) : res.sendStatus(200);
       client.flushdb();
     })
@@ -226,12 +218,10 @@ app.delete('/descriptionObject/:itemId', (req, res) => {
 
   db.deleteDescriptionObject(itemId)
     .then((data) => {
-      // console.log('successfully deleted description', data);
       !data ? res.sendStatus(404) : res.sendStatus(200);
       client.flushdb();
     })
     .catch((err) => {
-      // console.log(err);
       res.sendStatus(500);
     });
 });
