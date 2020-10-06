@@ -9,7 +9,6 @@ services:
     ports:
       - "80:3002"
     links:
-      - "mongo"
       - "redis"
     command: bash -c "wait-for-it.sh mongo:27017 && wait-for-it.sh redis:6379 && npm install && npm run pro"
     volumes:
