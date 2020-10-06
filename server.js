@@ -1,4 +1,4 @@
-// const newrelic = require('newrelic');
+const newrelic = require('newrelic');
 const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
