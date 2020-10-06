@@ -16,13 +16,6 @@ services:
       - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
       - ./:/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
 
-  mongo:
-    restart: always
-    container_name: mongo
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-
   redis:
     restart: always
     image: redis:latest

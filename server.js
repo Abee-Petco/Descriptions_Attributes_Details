@@ -1,4 +1,4 @@
-const newrelic = require('newrelic');
+// const newrelic = require('newrelic');
 const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
@@ -63,7 +63,7 @@ const redisMiddleware = (req, res, next) => {
     } else {
       res.sendResponse = res.send;
       res.send = (body) => {
-        typeof body === 'string' ? client.set(key, body) : client.set(key, JSON.stringify(body));
+        typeof body === 'string' ? client.setex(key, 180, body) : client.setex(key, 180, JSON.stringify(body));
         res.sendResponse(body);
       };
       next();
