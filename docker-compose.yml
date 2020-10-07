@@ -14,14 +14,3 @@ services:
     volumes:
       - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
       - ./:/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
-
-  redis:
-    restart: always
-    image: redis:latest
-    volumes:
-      - ./data:/data
-    command: ["redis-server", "--bind", "redis", "--port", "6379"]
-    environment: 
-      - ALLOW_EMPTY_PASSWORD=yes
-    ports:
-      - "6379:6379"
