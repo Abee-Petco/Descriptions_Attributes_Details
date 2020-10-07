@@ -44,7 +44,8 @@ app.use((req, res, next) => {
   //     res.header('Access-Control-Allow-Origin', `${address3}`); //kate's proxy
   //   }
   // }
-  res.header('Access-Control-Allow-Origin', `${address3}`);
+  // res.header('Access-Control-Allow-Origin', `${address3}`);
+  res.header('Access-Control-Allow-Origin', `*`);
   next();
 });
 
