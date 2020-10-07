@@ -9,7 +9,7 @@ const React = require('react');
 const fs = require('fs');
 const db = require('./database-mongodb/index.js');
 const axios = require('axios');
-let client;
+// let client;
 
 const app = express();
 
