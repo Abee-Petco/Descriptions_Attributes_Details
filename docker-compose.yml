@@ -8,9 +8,6 @@ services:
     working_dir: /Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
     ports:
       - "80:3002"
-    links:
-      - "redis"
-    command: bash -c "wait-for-it.sh redis:6379 && npm install && npm run pro"
+    command: bash -c "npm install && npm run pro"
     volumes:
-      - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
       - ./:/Users/samjohnson/Documents/hrfiles/petco/description_directions_attributes_
