@@ -2,7 +2,7 @@
 const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
-const redis = require('redis');
+// const redis = require('redis');
 import DescriptionService from './client/src/index.jsx';
 const ReactDOMServer = require('react-dom/server');
 const React = require('react');
@@ -50,27 +50,27 @@ app.use((req, res, next) => {
 });
 
 //redis caching middleware
-if (process.env.node_env === 'production') {
-  client = redis.createClient({ host: 'redis' });
-} else {
-  client = redis.createClient();
-}
+// if (process.env.node_env === 'production') {
+//   client = redis.createClient({ host: 'redis' });
+// } else {
+//   client = redis.createClient();
+// }
 
-const redisMiddleware = (req, res, next) => {
-  let key = '__expIress' + req.originalUrl || req.url;
-  client.get(key, function (err, reply) {
-    if (reply) {
-      res.send(reply);
-    } else {
-      res.sendResponse = res.send;
-      res.send = (body) => {
-        typeof body === 'string' ? client.setex(key, 180, body) : client.setex(key, 180, JSON.stringify(body));
-        res.sendResponse(body);
-      };
-      next();
-    }
-  });
-};
+// const redisMiddleware = (req, res, next) => {
+//   let key = '__expIress' + req.originalUrl || req.url;
+//   client.get(key, function (err, reply) {
+//     if (reply) {
+//       res.send(reply);
+//     } else {
+//       res.sendResponse = res.send;
+//       res.send = (body) => {
+//         typeof body === 'string' ? client.setex(key, 180, body) : client.setex(key, 180, JSON.stringify(body));
+//         res.sendResponse(body);
+//       };
+//       next();
+//     }
+//   });
+// };
 
 //gzip
 app.get('*.js', function (req, res, next) {
@@ -83,7 +83,7 @@ app.get('*.js', function (req, res, next) {
 });
 
 //SSR
-app.get('/', redisMiddleware, (req, res) => {
+app.get('/', (req, res) => {
   let itemId = req.originalUrl.slice(3);
   db.getDescriptionObject(itemId)
     .then((itemInfo) => {
@@ -116,7 +116,7 @@ app.get('/', redisMiddleware, (req, res) => {
 });
 
 //Proxy rendering SSR
-app.get('/component', redisMiddleware, (req, res) => {
+app.get('/component', (req, res) => {
   let { itemId } = req.query;
   db.getDescriptionObject(itemId)
     .then((itemInfo) => {
@@ -175,7 +175,7 @@ app.get('/itemInformation/:itemId', (req, res) => {
 });
 
 //get full description object for an item
-app.get('/descriptionObject/:itemId', redisMiddleware, (req, res) => {
+app.get('/descriptionObject/:itemId', (req, res) => {
   const itemId = req.params.itemId;
 
   db.getDescriptionObject(itemId)
