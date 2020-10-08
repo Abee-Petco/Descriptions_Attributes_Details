@@ -18,7 +18,7 @@ if (process.env.node_env === 'mockgoose') {
       console.log('Mockgoose connection failed: ', err);
     });
 } else if(process.env.node_env === 'production') {
-  mongoose.connect('mongodb://3.137.104.158:27017/petco_descriptions', { 
+  mongoose.connect('mongodb://3.138.71.170:27017/petco_descriptions', { 
     useUnifiedTopology: true,
     useNewUrlParser: true,
   }); 
