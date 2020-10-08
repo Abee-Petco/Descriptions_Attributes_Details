@@ -117,7 +117,6 @@ app.get('/', (req, res) => {
 
 //Proxy rendering SSR
 app.get('/component', (req, res) => {
-  console.log('HITTING MONGO TWO')
   let { itemId } = req.query;
   db.getDescriptionObject(itemId)
     .then((itemInfo) => {
