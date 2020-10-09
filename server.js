@@ -1,5 +1,5 @@
 // const newrelic = require('newrelic');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const express = require('express');
 const path = require('path');
 // const redis = require('redis');
@@ -14,7 +14,7 @@ const axios = require('axios');
 const app = express();
 
 app.use(express.json());
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 //crossorigin permission for 3000, 3004, 3005 and 3006
 app.use((req, res, next) => {
